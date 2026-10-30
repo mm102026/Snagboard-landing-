@@ -519,6 +519,67 @@ footer.site a{color:var(--muted)}
 .fit li .ic{width:20px;height:20px;color:#5DCAA5;flex:none;margin-top:1px;stroke-width:2.6}
 .fit-f{margin:4px 0 0;padding-top:12px;border-top:1px solid rgba(206,203,246,.22);font-size:.9rem;color:rgba(238,237,254,.8)}
 .fit-f b{color:var(--lav)}
+/* today + alternatives */
+.today{display:grid;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:hidden}
+.today::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--s-part)}
+.today-stat{display:flex;align-items:baseline;color:var(--s-part);font-weight:800;letter-spacing:-.04em;line-height:.9}
+.today-stat .big{font-size:4.4rem;font-variant-numeric:tabular-nums}
+.today-stat .pct{font-size:2.4rem}
+.today-txt{display:grid;gap:8px}
+.today-txt b{font-size:1.15rem;line-height:1.35}
+.today-txt>span{color:var(--muted);font-size:.93rem;line-height:1.45}
+.src{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.88rem;color:var(--hazard);text-decoration:none;border-bottom:1.5px solid var(--lav);justify-self:start;padding:6px 0 2px;min-height:36px}
+.src .ic{width:15px;height:15px}
+.src:hover{border-color:var(--hazard)}
+.chk-d{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;color:var(--muted)}
+.chk-d .ic{width:14px;height:14px}
+.alts{display:grid;gap:12px}
+.alt-c{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:12px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.alt-c::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--tc)}
+.alt-h{display:flex;gap:12px;align-items:center}
+.alt-i{width:46px;height:46px;border-radius:14px;background:var(--tb);color:var(--tc);display:grid;place-items:center;flex:none}
+.alt-h b{display:block;font-size:1.2rem;font-weight:800;letter-spacing:-.01em}
+.alt-h small{color:var(--muted);font-size:.86rem}
+.alt-l{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.94rem;line-height:1.4}
+.alt-l li::marker{color:var(--tc)}
+.alt-gap{margin:0;font-size:.9rem;color:var(--muted);background:var(--surface-2);border-radius:12px;padding:10px 12px;line-height:1.45}
+.alt-gap b{color:var(--ink)}
+.alt-f{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding-top:10px;border-top:1px solid var(--line)}
+.cmp{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+.cmp-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cmp-top>b{font-size:1.1rem;font-weight:800}
+.cmp .seg button{min-height:44px;font-size:.88rem;padding:0 14px}
+.cmp .seg button[aria-pressed="true"]{background:var(--hazard);color:var(--hazard-ink)}
+.cmp-t{width:100%;border-collapse:collapse;table-layout:fixed;font-size:.88rem}
+.cmp-t th{text-align:left;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 6px;border-bottom:1px solid var(--line)}
+.cmp-t th:first-child{width:42%}
+.cmp-t th.us{color:var(--hazard)}
+.cmp-t td{padding:10px 6px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.35}
+.cmp-t tr:last-child td{border-bottom:0}
+.cmp-t td:first-child{font-weight:700}
+.cmp-t td.us{background:color-mix(in srgb,var(--brand-soft) 60%,transparent)}
+.cv{display:flex;gap:6px;align-items:flex-start}
+.cv i{width:18px;height:18px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
+.cv i::after{font-style:normal;font-size:.7rem;font-weight:800}
+.cv .y,.cmp-key .y{background:var(--ok)} .cv .y::after{content:"✓";color:var(--on-ok)}
+.cv .p,.cmp-key .p{background:var(--s-part-bg);border:2px solid var(--s-part)} .cv .p::after{content:"";}
+.cv .n,.cmp-key .n{background:var(--surface-2);border:2px dashed var(--line)} .cv .n::after{content:"";}
+.cv small{font-size:.8rem;color:var(--muted);font-weight:500}
+.cmp-t tbody.swap td:nth-child(2){animation:fade .35s ease-out}
+.cmp-key{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:.78rem;color:var(--muted)}
+.cmp-key span{display:inline-flex;align-items:center;gap:6px}
+.cmp-key i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.disclaim2{margin:14px 0 0;font-size:.8rem;color:var(--muted);max-width:80ch}
+@media (max-width:859px){
+  .cmp-t,.cmp-t thead,.cmp-t tbody{display:block}
+  .cmp-t tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:1px solid var(--line)}
+  .cmp-t tbody tr:last-child{border-bottom:0}
+  .cmp-t th:first-child{display:none}
+  .cmp-t th,.cmp-t td{border-bottom:0;overflow-wrap:anywhere}
+  .cmp-t td:first-child{grid-column:1/-1;padding:12px 6px 2px}
+  .cmp-t td{padding:6px 8px 12px}
+  .cmp-t td.us{border-radius:10px;margin:0 0 8px}
+}
 /* reveal on scroll */
 .js .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
 .js .rv.in{opacity:1;transform:none}
@@ -557,6 +618,12 @@ footer.site a{color:var(--muted)}
   .roles{grid-template-columns:1fr 1fr}
   .role{flex-direction:column}
   .who-lay{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:stretch}
+  .today{grid-template-columns:auto minmax(0,1fr);gap:28px;padding:24px 28px}
+  .today-stat .big{font-size:5.5rem}
+  .alts{grid-template-columns:1fr 1fr;gap:16px}
+  .cmp{padding:20px 24px}
+  .cmp-t{font-size:.95rem}
+  .cmp-t th:first-child{width:34%}
   .pfwrap{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:40px;align-items:start}
   .pf-intro{position:sticky;top:calc(var(--head-h) + 24px)}
   .hw-steps{grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr) 44px minmax(0,1fr);gap:6px}
@@ -589,6 +656,7 @@ footer.site a{color:var(--muted)}
     <nav class="nav" aria-label="Sections">
       <a href="#who">Who it’s for</a>
       <a href="#how">How it works</a>
+      <a href="#compare">Compare</a>
       <a href="#features">Features</a>
       <a href="#iso">ISO</a>
       <a href="#pricing">Pricing</a>
@@ -805,6 +873,66 @@ footer.site a{color:var(--muted)}
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ TODAY + ALTERNATIVES ============ -->
+<section class="band" id="compare">
+  <div class="wrap">
+    <span class="eyebrow rv">The real picture</span>
+    <h2 class="rv">How teams handle it today, and what already exists</h2>
+    <p class="sub rv">Good tools exist. Snagboard is built for the gap between a spreadsheet and an enterprise system: a multi-site team that needs requests, landlord repairs and controlled documents in one place.</p>
+
+    <div class="today rv">
+      <div class="today-stat">
+        <span class="big" data-count="62">0</span><span class="pct">%</span>
+      </div>
+      <div class="today-txt">
+        <b>of facility managers surveyed still use spreadsheets to manage facilities.</b>
+        <span>53% also use CAFM software, so many teams run both side by side. Respondents could choose more than one option, and over 90% of their organisations operate in the UK.</span>
+        <a class="src" href="https://fmj.co.uk/magazines/202110/page_38.html" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Idox survey, reported in FMJ, October 2021</a>
+        <span class="chk-d"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Checked at source 30 October 2026</span>
+      </div>
+    </div>
+
+    <div class="alts">
+      <article class="alt-c rv" style="--tc:var(--s-new);--tb:var(--s-new-bg)">
+        <div class="alt-h"><span class="alt-i"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span><span><b>MaintainX</b><small>Maintenance work-order app (CMMS)</small></span></div>
+        <ul class="alt-l">
+          <li>Work orders, repeating (preventive) work and request portals</li>
+          <li>Mobile apps listed for iPhone and Android</li>
+          <li>Free Basic plan; paid plans from <b>$20 per user / month</b>, billed annually</li>
+        </ul>
+        <p class="alt-gap"><b>Does part of it:</b> strong on work orders. The page we checked doesn’t describe landlord repair tracking or a controlled document library.</p>
+        <div class="alt-f"><a class="src" href="https://getmaintainx.com/pricing" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>getmaintainx.com/pricing</a><span class="chk-d"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Checked 30 Oct 2026</span></div>
+      </article>
+      <article class="alt-c rv d1" style="--tc:var(--s-assigned);--tb:var(--s-assigned-bg)">
+        <div class="alt-h"><span class="alt-i"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21V8l8 3v10"/><path d="M2 21h20M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></svg></span><span><b>Planon</b><small>Enterprise workplace and maintenance suite</small></span></div>
+        <ul class="alt-l">
+          <li>Reactive work orders and planned preventive maintenance</li>
+          <li>Mobile Field Services app for technicians; health &amp; safety management</li>
+          <li>Real estate management in the wider suite; <b>price on request</b> via demo</li>
+        </ul>
+        <p class="alt-gap"><b>Does part of it:</b> broad enterprise coverage. The page we checked doesn’t mention document management or ISO evidence, and it’s sold through a demo-led process.</p>
+        <div class="alt-f"><a class="src" href="https://planonsoftware.com/uk/solutions/maintenance-management-software" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>planonsoftware.com · maintenance</a><span class="chk-d"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Checked 30 Oct 2026</span></div>
+      </article>
+    </div>
+
+    <div class="cmp rv">
+      <div class="cmp-top">
+        <b>Side by side</b>
+        <div class="seg" role="group" aria-label="Compare Snagboard with">
+          <button type="button" id="cmpA" aria-pressed="true">vs MaintainX</button>
+          <button type="button" id="cmpB" aria-pressed="false">vs Planon</button>
+        </div>
+      </div>
+      <table class="cmp-t" id="cmpT">
+        <thead><tr><th scope="col">What you need</th><th scope="col" id="cmpName">MaintainX</th><th scope="col" class="us">Snagboard</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="cmp-key"><span><i class="y"></i>Described on their page</span><span><i class="p"></i>Partly / in a wider suite</span><span><i class="n"></i>Not described on the page checked</span></div>
+    </div>
+    <p class="disclaim2">Based on each company’s own web page, checked on 30 October 2026. Features and prices change, so check with the vendor. MaintainX and Planon are trademarks of their owners; Snagboard isn’t affiliated with them.</p>
   </div>
 </section>
 
@@ -1371,6 +1499,28 @@ hws.forEach(function(t,i){
 $("hwstage").addEventListener("pointerdown",function(){hStop();hShow(hCur)});
 onVisible($("hwstage"),function(v){var was=hIn;hIn=v;if(v&&!was)hShow(hCur);else if(!v)clearTimeout(hTimer)},0.35);
 
+/* ---- comparison table ---- */
+var CMP=[
+ ["Work orders and requests",{a:["y","Work orders and request portals"],b:["y","Reactive work orders"],u:["y","One helpdesk list, every channel"]}],
+ ["Planned maintenance",{a:["y","Repeating work orders"],b:["y","Planned preventive maintenance"],u:["y","Shared calendar for every site"]}],
+ ["Technician phone app",{a:["y","iPhone and Android apps"],b:["y","Mobile Field Services"],u:["y","Big one-tap buttons"]}],
+ ["Landlord repair tracker",{a:["n","Not described"],b:["p","Real estate module in suite"],u:["y","Lease clause, agent ref, dated chases"]}],
+ ["Controlled document library",{a:["n","Attachments on work orders"],b:["n","Not described"],u:["y","Current version, owner, review date, access by role"]}],
+ ["ISO evidence planning",{a:["n","Not described"],b:["n","Not described; H&S management listed"],u:["p","Coming soon"]}],
+ ["Published price",{a:["y","Free plan; from $20 per user / month (annual)"],b:["n","On request, via demo"],u:["y","€49 per site / month"]}]
+];
+var cmpBody=document.querySelector("#cmpT tbody"), cmpKey="a";
+function cell(v){return '<div class="cv"><i class="'+v[0]+'" aria-hidden="true"></i><span>'+v[1]+'</span></div>'}
+function drawCmp(){
+  cmpBody.innerHTML=CMP.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+cell(r[1][cmpKey])+'</td><td class="us">'+cell(r[1].u)+"</td></tr>"}).join("");
+  $("cmpName").textContent=cmpKey==="a"?"MaintainX":"Planon";
+  $("cmpA").setAttribute("aria-pressed",cmpKey==="a");$("cmpB").setAttribute("aria-pressed",cmpKey==="b");
+  cmpBody.classList.remove("swap");void cmpBody.offsetWidth;cmpBody.classList.add("swap");
+}
+$("cmpA").addEventListener("click",function(){cmpKey="a";drawCmp()});
+$("cmpB").addEventListener("click",function(){cmpKey="b";drawCmp()});
+drawCmp();
+
 /* ---- price calculator ---- */
 var sites=$("sites");
 function calc(){var n=+sites.value;$("sitesN").textContent=n;$("sitesTot").textContent="€"+(n*49).toLocaleString("en-IE")}
@@ -1397,3 +1547,4 @@ onVisible($("waitlist"),function(v){dock.classList.toggle("away",v)},0.15);
 </script>
 </body>
 </html>
+
