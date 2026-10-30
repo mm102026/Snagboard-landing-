@@ -1,0 +1,1399 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snagboard · One true record for facilities teams</title>
+<meta name="description" content="Snagboard gives facility managers one true record of every maintenance request, planned check and building document, across every site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F7F6FF; --surface:#FFFFFF; --surface-2:#F3F2FF; --ink:#1F1A4D; --muted:#5E5A8F; --line:#E3E1F8;
+  --brand:#3C3489; --brand-deep:#26215C; --brand-ink:#ffffff; --brand-soft:#EEEDFE;
+  --hazard:#534AB7; --hazard-ink:#ffffff; --lav:#CECBF6; --hero-bg:#F1EFFE;
+  --ok:#0F6E56; --ok-bg:#E1F5EE; --on-ok:#ffffff; --danger:#b3261e; --danger-bg:#fbe6e4; --warn:#9a5b00; --warn-bg:#fdf0d9;
+  --s-new:#2a65a6; --s-new-bg:#e2ecf7; --s-assigned:#6847ad; --s-assigned-bg:#ece6f7; --s-part:#b05a08; --s-part-bg:#fbeadb;
+  --s-progress:#0a7b70; --s-progress-bg:#dcf1ee; --s-complete:#2b7a3c; --s-complete-bg:#e1f1e4;
+  --c-fire:#c0392b; --c-water:#1f7fa8; --c-lifts:#6847ad; --c-hvac:#0a7b70; --c-elec:#b07a00; --c-fabric:#6b5a48;
+  --shadow:0 1px 2px rgba(60,52,137,.05),0 6px 20px rgba(60,52,137,.08);
+  --shadow-lg:0 20px 50px rgba(60,52,137,.18);
+  --f-display:"Plus Jakarta Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --f-body:"Plus Jakarta Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --radius:14px; --head-h:64px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12102A; --surface:#1B1838; --surface-2:#231F47; --ink:#EEEDFE; --muted:#AFA9EC; --line:#332E66;
+  --brand:#3C3489; --brand-deep:#1A1740; --brand-soft:#262256;
+  --hazard:#9A93EE; --hazard-ink:#14112E; --lav:#CECBF6; --hero-bg:#17143A;
+  --ok:#5DCAA5; --ok-bg:#0B2E25; --on-ok:#04342C; --danger:#ff8a80; --danger-bg:#3a1d1b; --warn:#f3b65a; --warn-bg:#352812;
+  --s-new:#78aee9; --s-new-bg:#18293b; --s-assigned:#ad95ea; --s-assigned-bg:#251e3a; --s-part:#eb9a50; --s-part-bg:#36230f;
+  --s-progress:#45c6b7; --s-progress-bg:#0f2e2b; --s-complete:#6cc47f; --s-complete-bg:#152d1b;
+  --c-fire:#ff7b6b; --c-water:#5cb8e0; --c-lifts:#ad95ea; --c-hvac:#45c6b7; --c-elec:#e8b844; --c-fabric:#c4ad93;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3); --shadow-lg:0 20px 50px rgba(0,0,0,.45); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#12102A; --surface:#1B1838; --surface-2:#231F47; --ink:#EEEDFE; --muted:#AFA9EC; --line:#332E66;
+  --brand:#3C3489; --brand-deep:#1A1740; --brand-soft:#262256;
+  --hazard:#9A93EE; --hazard-ink:#14112E; --lav:#CECBF6; --hero-bg:#17143A;
+  --ok:#5DCAA5; --ok-bg:#0B2E25; --on-ok:#04342C; --danger:#ff8a80; --danger-bg:#3a1d1b; --warn:#f3b65a; --warn-bg:#352812;
+  --s-new:#78aee9; --s-new-bg:#18293b; --s-assigned:#ad95ea; --s-assigned-bg:#251e3a; --s-part:#eb9a50; --s-part-bg:#36230f;
+  --s-progress:#45c6b7; --s-progress-bg:#0f2e2b; --s-complete:#6cc47f; --s-complete-bg:#152d1b;
+  --c-fire:#ff7b6b; --c-water:#5cb8e0; --c-lifts:#ad95ea; --c-hvac:#45c6b7; --c-elec:#e8b844; --c-fabric:#c4ad93;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3); --shadow-lg:0 20px 50px rgba(0,0,0,.45); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--head-h) + 12px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-tap-highlight-color:transparent;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--hazard);outline-offset:2px}
+[hidden]{display:none!important}
+.ic{width:1.25em;height:1.25em;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--hazard)}
+.sample{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;border-radius:4px;color:var(--warn);background:var(--warn-bg);border:1px dashed currentColor;white-space:nowrap}
+
+/* ---------- buttons ---------- */
+.btn{min-height:56px;padding:0 20px;border-radius:var(--radius);font-weight:700;font-size:1.05rem;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+.btn-hazard{background:var(--hazard);color:var(--hazard-ink);box-shadow:0 6px 18px rgba(83,74,183,.28)}
+.btn-outline{background:var(--surface);color:var(--ink);border:1.5px solid var(--lav)}
+.btn-light{background:#fff;color:#3C3489}
+.btn-brand{background:var(--brand);color:var(--brand-ink)}
+.btn-ghost{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.btn-sm{white-space:nowrap;min-height:44px;padding:0 14px;font-size:.95rem;border-radius:10px}
+
+/* ---------- sticky header ---------- */
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);color:var(--ink);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+.top.scrolled{box-shadow:0 8px 24px rgba(60,52,137,.10)}
+.top-in{display:flex;align-items:center;gap:10px;height:var(--head-h)}
+.brandlink{display:flex;align-items:center;gap:10px;text-decoration:none;flex:1;min-width:0}
+.logo{width:38px;height:38px;border-radius:11px;background:var(--hazard);color:var(--hazard-ink);display:grid;place-items:center;flex:none}
+.logo .ic{width:24px;height:24px}
+.name{font-family:var(--f-display);font-weight:800;font-size:1.4rem;letter-spacing:-.02em}
+.nav{display:none;gap:4px}
+.nav a{white-space:nowrap;text-decoration:none;font-weight:600;font-size:.95rem;padding:10px 12px;border-radius:10px;color:var(--muted)}
+.nav a:hover,.nav a.on{color:var(--ink);background:var(--surface-2)}
+.top .join{display:none}
+.top .btn-hazard{box-shadow:none}
+.progress{position:absolute;left:0;bottom:-1px;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(var(--p,0));background:linear-gradient(90deg,var(--hazard),#5DCAA5);border-radius:0 3px 3px 0;z-index:2}
+
+/* ---------- bottom toolbar (phones) ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.1);padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));display:grid;grid-template-columns:1.15fr 1fr;gap:8px;transition:transform .25s}
+.dock .btn{min-height:52px;font-size:.98rem;padding:0 10px}
+.dock.away{transform:translateY(110%)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;color:var(--ink);overflow:hidden;background:var(--hero-bg)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(45% 55% at 88% 22%,rgba(127,119,221,.30),transparent 70%),radial-gradient(40% 45% at 4% 96%,rgba(93,202,165,.20),transparent 70%),radial-gradient(30% 35% at 45% 0%,rgba(175,169,236,.25),transparent 70%)}
+.hero-icons{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-icons .ic{position:absolute;color:rgba(83,74,183,.10);stroke-width:1.4;animation:drift 9s ease-in-out infinite alternate}
+.h1i{width:120px;height:120px;top:6%;right:-20px}
+.h2i{width:150px;height:150px;bottom:4%;left:-30px;animation-delay:-2s!important}
+.h3i{width:80px;height:80px;top:42%;right:8%;animation-delay:-4s!important}
+.h4i{width:70px;height:70px;top:12%;left:46%;animation-delay:-6s!important}
+.h5i{width:90px;height:90px;bottom:10%;right:30%;animation-delay:-3s!important}
+.h6i{width:60px;height:60px;top:58%;left:38%;animation-delay:-5s!important}
+@keyframes drift{to{transform:translate(10px,-14px) rotate(6deg)}}
+.hero-in{position:relative;z-index:2;padding-block:36px 40px;display:grid;gap:28px}
+.hero .eyebrow{color:var(--hazard);background:var(--surface);border:1px solid var(--lav);padding:6px 12px;border-radius:999px;justify-self:start;font-size:.7rem}
+h1{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(2.4rem,10.5vw,4.2rem);line-height:1.02;letter-spacing:-.035em}
+.rot{display:inline-block;color:var(--hazard);position:relative}
+.rot span{display:inline-block}
+.rot span.out{animation:wout .35s forwards}
+.rot span.in{animation:win .4s both}
+@keyframes wout{to{opacity:0;transform:translateY(-.4em)}}
+@keyframes win{from{opacity:0;transform:translateY(.4em)}}
+.lead{margin:0;font-size:1.12rem;color:var(--muted);max-width:54ch}
+.ctas{display:grid;gap:10px}
+.note{font-size:.88rem;color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
+.stat{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 10px 12px;box-shadow:var(--shadow);display:grid;gap:7px;align-content:start;transition:transform .25s,box-shadow .25s,border-color .25s}
+.stat::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--tc)}
+.stat::after{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:var(--tb);opacity:.7;pointer-events:none}
+.stat>*{position:relative;z-index:1}
+.stat:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--tc) 45%,var(--line))}
+.si{width:34px;height:34px;border-radius:11px;background:var(--tb);color:var(--tc);display:grid;place-items:center}
+.si .ic{width:18px;height:18px}
+.sn{display:flex;align-items:center;gap:3px;font-family:var(--f-display);font-weight:800;font-size:2rem;line-height:1;color:var(--ink);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.sn em{font-style:normal;color:var(--tc)}
+.sn .arr{width:18px;height:18px;color:var(--tc);stroke-width:2.6}
+.sl{font-size:.78rem;font-weight:600;color:var(--muted);line-height:1.25}
+.mini{display:flex;align-items:center;gap:3px;min-height:22px;flex-wrap:nowrap}
+.mc{width:22px;height:22px;border-radius:50%;background:var(--tb);color:var(--tc);display:grid;place-items:center;margin-left:-7px;box-shadow:0 0 0 2px var(--surface);flex:none}
+.mc:first-child{margin-left:0}
+.mc .ic{width:12px;height:12px;stroke-width:2.2}
+.mc.solid{background:var(--tc);color:var(--surface);margin-left:0}
+.mini .ma{width:13px;height:13px;color:var(--tc);stroke-width:2.4;flex:none}
+.vchip{font-family:var(--f-mono);font-size:.66rem;padding:3px 6px;border-radius:7px;background:var(--surface-2);color:var(--muted);text-decoration:line-through;line-height:1.2}
+.vchip.cur{background:var(--ok);color:var(--on-ok);text-decoration:none;display:inline-flex;align-items:center;gap:2px}
+.vchip.cur .ic{width:11px;height:11px;stroke-width:3}
+.js .stats .mini>*{opacity:0;transform:scale(.4)}
+.js .stats.go .mini>*{opacity:1;transform:none;animation:popin .45s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(.35s + var(--i)*110ms)}
+.js .stats.go .vchip:not(.cur){animation:popin .4s both .35s,fadeold .5s ease 1.1s forwards}
+@keyframes fadeold{to{opacity:.55}}
+@media (max-width:859px){.mc{width:18px;height:18px;margin-left:-4px;box-shadow:0 0 0 1.5px var(--surface)}.mc .ic{width:10px;height:10px}.mini{gap:2px}.mini .ma{width:12px;height:12px}}
+@media (min-width:860px){.stats{gap:12px}.stat{padding:16px 14px 14px}.sl{font-size:.84rem}}
+
+/* device mock (used in hero + feature explorer) */
+.device{background:var(--surface);color:var(--ink);border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden;border:1px solid var(--line)}
+.dev-h{display:flex;align-items:center;gap:8px;padding:11px 12px;background:var(--brand);color:#fff;font-weight:700;font-size:.85rem}
+.dev-h .logo{width:24px;height:24px;border-radius:5px}
+.dev-h .logo .ic{width:16px;height:16px}
+.dev-h .sample{margin-left:auto;background:var(--lav);color:#26215C;border-color:#26215C}
+.dev-b{padding:12px;display:grid;gap:10px;background:var(--bg);min-height:300px;align-content:start}
+.mjob{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:7px;transition:box-shadow .3s,border-color .3s}
+.mjob.flash{border-color:var(--sc);box-shadow:0 0 0 3px var(--sbg)}
+.mtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-weight:700;font-size:.76rem;color:var(--sc);background:var(--sbg);transition:background .3s,color .3s}
+.ref{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.age{margin-left:auto;font-size:.76rem;font-weight:600;color:var(--muted)}
+.mjob b{font-size:.98rem;line-height:1.25}
+.mjob small{color:var(--muted);font-size:.8rem}
+.prog{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.prog i{height:7px;border-radius:2px;background:var(--line);transition:background .35s}
+.prog i.on{background:var(--sc)}
+.madv{justify-self:start;min-height:40px;padding:0 12px;border-radius:9px;background:var(--sc);color:#fff;font-weight:700;font-size:.85rem;display:inline-flex;align-items:center;gap:6px;transition:background .3s}
+:root[data-theme="dark"] .madv{color:#0f161d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .madv{color:#0f161d}}
+.madv.press{transform:scale(.94)}
+.mtoast{justify-self:center;background:var(--ink);color:var(--bg);font-size:.8rem;font-weight:600;padding:7px 12px;border-radius:9px;opacity:0;transform:translateY(6px);transition:all .3s}
+.mtoast.show{opacity:1;transform:none}
+.st-new{--sc:var(--s-new);--sbg:var(--s-new-bg)} .st-assigned{--sc:var(--s-assigned);--sbg:var(--s-assigned-bg)}
+.st-part{--sc:var(--s-part);--sbg:var(--s-part-bg)} .st-progress{--sc:var(--s-progress);--sbg:var(--s-progress-bg)}
+.st-complete{--sc:var(--s-complete);--sbg:var(--s-complete-bg)}
+.hero .device{max-width:440px;width:100%;justify-self:center;transform:rotate(-1.2deg);border-radius:22px}
+
+/* ---------- sections ---------- */
+section.band{padding-block:44px}
+.band h2{margin:6px 0 12px;font-family:var(--f-display);font-weight:800;letter-spacing:-.03em;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.08;text-wrap:balance}
+.band p.sub{margin:0 0 24px;color:var(--muted);max-width:62ch;font-size:1.05rem}
+.alt{background:var(--surface-2)}
+
+/* problem */
+.quote{position:relative;margin:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:38px 22px 20px;border:1px solid var(--line)}
+.quote::before{content:"\201C";position:absolute;top:-18px;left:18px;width:44px;height:44px;border-radius:14px;background:var(--hazard);color:var(--hazard-ink);display:grid;place-items:center;font-size:2.2rem;font-weight:800;line-height:1;padding-top:12px}
+.quote p{margin:0 0 12px;font-size:1.13rem;line-height:1.5}
+.quote footer{margin-top:14px;font-size:.88rem;color:var(--muted);font-weight:600}
+.photo{position:relative;border-radius:14px;overflow:hidden;background:var(--brand-soft);box-shadow:var(--shadow)}
+.photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .6s}
+.photo:hover img{transform:scale(1.04)}
+.photo figcaption{position:absolute;left:10px;bottom:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap}
+/* icon illustrations (replace photos) */
+.illo{background:linear-gradient(150deg,var(--brand-soft),var(--surface-2));border:1px solid var(--line);overflow:hidden}
+.illo::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 50% 48%,rgba(127,119,221,.28),transparent 70%)}
+.illo-in{position:relative;z-index:1;aspect-ratio:4/3;display:grid;place-items:center}
+.illo-in.tall{aspect-ratio:4/5}
+.illo-main{width:120px;height:120px;border-radius:32px;background:var(--hazard);color:var(--hazard-ink);display:grid;place-items:center;box-shadow:0 0 0 12px rgba(127,119,221,.16),0 0 0 26px rgba(127,119,221,.07),0 16px 40px rgba(60,52,137,.25);animation:pulse 3.2s ease-in-out infinite}
+.illo-main .ic{width:64px;height:64px;stroke-width:1.7}
+.illo-main.warn{background:#fff;color:var(--s-part)}
+@keyframes pulse{50%{box-shadow:0 0 0 18px rgba(127,119,221,.13),0 0 0 36px rgba(127,119,221,.04),0 16px 40px rgba(60,52,137,.25)}}
+.orb{position:absolute;width:58px;height:58px;border-radius:18px;background:#fff;color:var(--oc);display:grid;place-items:center;box-shadow:0 10px 24px rgba(60,52,137,.16);animation:bob 4.2s ease-in-out infinite}
+.orb .ic{width:30px;height:30px}
+.o1{left:12%;top:20%}
+.o2{right:12%;top:30%;animation-delay:-1s}
+.o3{left:16%;bottom:16%;animation-delay:-2s}
+.o4{right:18%;bottom:14%;animation-delay:-3s}
+.o5{left:46%;top:7%;width:46px;height:46px;border-radius:13px;animation-delay:-1.6s}
+.o5 .ic{width:24px;height:24px}
+.illo .floaty{right:auto;left:12px;z-index:2}
+.illo:has(.floaty) .o5{left:auto;right:7%;top:6%}
+.illo:has(.floaty) .o1{top:26%}
+.tall .o1{top:16%} .tall .o3{bottom:20%} .tall .o4{bottom:18%}
+.chipf{background:rgba(38,33,92,.88);color:#fff;font-size:.8rem;font-weight:700;padding:6px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;backdrop-filter:blur(4px)}
+.chipf .ic{color:var(--lav)}
+.pains{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pains li{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-weight:600}
+.pains .ic{color:var(--s-part);margin-top:2px}
+.prob{display:grid;gap:16px}
+
+/* feature explorer */
+.ftabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -16px;padding-inline:16px;scrollbar-width:none;scroll-snap-type:x proximity}
+.ftabs::-webkit-scrollbar{display:none}
+.ftab{position:relative;flex:none;scroll-snap-align:start;min-height:52px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;display:inline-flex;align-items:center;gap:8px;overflow:hidden}
+.ftab .ic{color:var(--muted)}
+.ftab[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.ftab[aria-selected="true"] .ic{color:var(--lav)}
+.ftab .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--lav)}
+.ftab[aria-selected="true"].timing .bar{animation:tbar var(--dur,7s) linear forwards}
+@keyframes tbar{to{width:100%}}
+.ftab .soon{font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--hazard);color:var(--hazard-ink);padding:2px 6px;border-radius:4px}
+.fpanel{display:grid;gap:20px;margin-top:14px;animation:fade .35s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.fpanel h3{margin:0;font-family:var(--f-display);font-weight:800;letter-spacing:-.025em;font-size:1.55rem;line-height:1.12}
+.fpanel p{margin:6px 0 0;color:var(--muted)}
+.ticks{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:9px}
+.ticks li{display:flex;gap:10px;align-items:flex-start}
+.ticks .ic{color:var(--ok);margin-top:2px}
+.deeplink{margin-top:16px;display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--hazard);padding-bottom:2px;min-height:44px}
+
+/* mini views */
+.tiles5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.t5{background:var(--surface);border-radius:8px;padding:6px;border-top:3px solid var(--sc);color:var(--sc);font-size:.62rem;font-weight:700;line-height:1.1}
+.t5 b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.25rem;color:var(--ink);line-height:1}
+.crew{display:flex;gap:8px;overflow:hidden}
+.crewc{flex:none;display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:7px 10px;font-size:.8rem}
+.crewc.on{border-color:var(--brand);background:var(--brand-soft)}
+.av{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.72rem;flex:none}
+.crewc b{display:block;font-size:.84rem;line-height:1.1}
+.crewc small{color:var(--muted)}
+.mcal{background:var(--surface);border-radius:10px;border:1px solid var(--line);overflow:hidden}
+.mcal-h{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;font-family:var(--f-display);font-size:.98rem;font-weight:800;border-bottom:1px solid var(--line)}
+.mcal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.mcal-g .dw{font-size:.6rem;font-weight:700;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0;background:var(--surface-2)}
+.mcal-g .cd{min-height:40px;border-top:1px solid var(--line);border-right:1px solid var(--line);padding:3px;display:flex;flex-direction:column;gap:2px;font-size:.66rem;font-weight:700}
+.mcal-g .cd:nth-child(7n){border-right:0}
+.mcal-g .cd.out{background:var(--surface-2)}
+.mcal-g .cd.today span{background:var(--hazard);color:var(--hazard-ink);border-radius:50%;width:17px;height:17px;display:grid;place-items:center}
+.mcal-g .cd i{height:4px;border-radius:2px;background:var(--cc);transform:scaleX(0);transform-origin:left;animation:grow .5s forwards}
+@keyframes grow{to{transform:scaleX(1)}}
+.cat-fire{--cc:var(--c-fire)} .cat-water{--cc:var(--c-water)} .cat-lifts{--cc:var(--c-lifts)} .cat-hvac{--cc:var(--c-hvac)} .cat-elec{--cc:var(--c-elec)} .cat-fabric{--cc:var(--c-fabric)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:.72rem;color:var(--muted);font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:3px;background:var(--cc)}
+.seen{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:.8rem}
+.stack{display:flex}
+.stack .av{width:26px;height:26px;font-size:.62rem;border:2px solid var(--surface);margin-left:-7px}
+.stack .av:first-child{margin-left:0}
+.llc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:8px}
+.lsteps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.lsteps div{font-size:.62rem;font-weight:700;color:var(--muted);display:grid;gap:3px}
+.lsteps i{height:6px;border-radius:2px;background:var(--line);transition:background .4s}
+.lsteps div.on{color:var(--ink)} .lsteps div.on i{background:var(--brand)}
+:root[data-theme="dark"] .lsteps div.on i{background:var(--hazard)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lsteps div.on i{background:var(--hazard)}}
+.kv2{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;font-size:.75rem}
+.kv2 dt{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.kv2 dd{margin:0;font-weight:600}
+.chase{font-size:.75rem;font-weight:700;color:var(--warn);background:var(--warn-bg);padding:3px 8px;border-radius:6px;justify-self:start}
+.mdoc{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.mdoc.locked{background:var(--surface-2)}
+.mdoc.locked .ft{filter:grayscale(1);opacity:.5}
+.mdoc.locked b{color:var(--muted)}
+.ft{width:34px;height:40px;border-radius:3px 9px 3px 3px;display:grid;place-items:end center;padding-bottom:4px;font-family:var(--f-mono);font-size:.55rem;color:#fff;background:var(--ftc)}
+.ft-pdf{--ftc:#b3261e} .ft-dwg{--ftc:#1f6fa8} .ft-xlsx{--ftc:#2b7a3c} .ft-docx{--ftc:#2a4f9a}
+.mdoc b{display:block;font-size:.84rem;line-height:1.2}
+.mdoc small{font-size:.7rem;color:var(--muted)}
+.acc{font-size:.64rem;font-weight:700;padding:3px 6px;border-radius:5px;white-space:nowrap;display:inline-flex;align-items:center;gap:3px}
+.acc-all{background:var(--s-complete-bg);color:var(--s-complete)} .acc-ops{background:var(--s-new-bg);color:var(--s-new)}
+.acc-fm{background:var(--warn-bg);color:var(--warn)} .acc-head{background:var(--danger-bg);color:var(--danger)}
+.over{color:var(--danger);font-weight:700}
+.rolebar{display:flex;align-items:center;gap:8px;background:var(--brand-soft);border-radius:9px;padding:7px 10px;font-size:.78rem;font-weight:600}
+.isogrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.isoc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px}
+.ring{--v:0;--rc:var(--ok);width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--rc) calc(var(--v)*1%),var(--line) 0);transition:--v 1s}
+.ring::before{content:"";grid-area:1/1;width:38px;height:38px;border-radius:50%;background:var(--surface)}
+.ring span{grid-area:1/1;position:relative;font-size:.72rem;font-weight:700;font-variant-numeric:tabular-nums}
+.isoc b{display:block;font-size:.82rem;line-height:1.1}
+.isoc small{font-size:.68rem;color:var(--muted);line-height:1.15;display:block}
+.evi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:.78rem;display:grid;gap:5px}
+.evi div{display:flex;justify-content:space-between;gap:8px}
+.evi .okk{color:var(--ok);font-weight:700}
+.evi .due{color:var(--warn);font-weight:700}
+
+/* spotlights */
+.spot{display:grid;gap:22px;align-items:center}
+.spot + .spot{margin-top:44px}
+.spot h3{margin:4px 0 8px;font-family:var(--f-display);font-weight:800;letter-spacing:-.03em;font-size:clamp(1.5rem,6vw,2.05rem);line-height:1.1}
+.spot p{margin:0;color:var(--muted)}
+.floaty{position:absolute;right:12px;top:12px;background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 10px;box-shadow:var(--shadow-lg);font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:8px;max-width:75%;animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.floaty .dotc{width:10px;height:10px;border-radius:50%;background:var(--cc,var(--ok));flex:none}
+
+/* ISO section */
+.iso{background:var(--brand-deep);color:#fff;position:relative;overflow:hidden}
+.iso::after{content:"";position:absolute;inset:0;background:radial-gradient(45% 50% at 95% 10%,rgba(127,119,221,.35),transparent 70%),radial-gradient(40% 40% at 0% 100%,rgba(93,202,165,.14),transparent 70%);pointer-events:none}
+.iso .wrap{position:relative;z-index:1}
+.iso .eyebrow{color:var(--lav)}
+.iso p.sub{color:rgba(238,237,254,.82)}
+.stds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.std{background:rgba(255,255,255,.07);border:1px solid rgba(206,203,246,.22);border-radius:16px;padding:14px;display:grid;gap:6px}
+.std b{font-family:var(--f-display);font-weight:800;font-size:1.3rem;line-height:1;color:var(--lav)}
+.std span{font-size:.88rem;opacity:.88;line-height:1.3}
+.planner{background:var(--surface);color:var(--ink);border-radius:16px;padding:18px;display:grid;gap:14px;box-shadow:var(--shadow-lg)}
+.planner-h{display:flex;align-items:center;gap:14px}
+.bigring{--v:0;width:86px;height:86px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--ok) calc(var(--v)*1%),var(--line) 0);transition:background .4s}
+.bigring::before{content:"";grid-area:1/1;width:68px;height:68px;border-radius:50%;background:var(--surface)}
+.bigring span{grid-area:1/1;position:relative;font-family:var(--f-display);font-size:1.3rem;font-weight:800}
+.planner-h h3{margin:0;font-family:var(--f-display);font-weight:800;letter-spacing:-.02em;font-size:1.25rem;line-height:1.15}
+.planner-h p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.chk{display:grid;gap:8px}
+.chk label{display:flex;gap:12px;align-items:flex-start;min-height:56px;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface-2);cursor:pointer;transition:border-color .2s,background .2s}
+.chk input{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:7px;border:2px solid var(--muted);flex:none;margin:0;display:grid;place-items:center;background:var(--surface);cursor:pointer}
+.chk input:checked{background:var(--ok);border-color:var(--ok)}
+.chk input:checked::after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:translate(0,-2px) rotate(45deg)}
+.chk label:has(input:checked){border-color:var(--ok);background:var(--ok-bg)}
+.chk b{display:block;font-size:.97rem;line-height:1.25}
+.chk small{color:var(--muted);font-size:.82rem;line-height:1.3;display:block}
+.chk .where{font-size:.72rem;font-weight:700;color:var(--s-new);margin-top:3px;display:block}
+.road{display:grid;gap:0;margin-top:6px}
+.rs{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;position:relative;padding-bottom:16px}
+.rs::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:rgba(255,255,255,.2)}
+.rs:last-child::before{display:none}
+.rs .n{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--lav);color:#26215C;font-weight:800;font-family:var(--f-display);font-size:1rem}
+.rs b{display:block;padding-top:5px}
+.rs span{font-size:.9rem;opacity:.82}
+.disclaim{font-size:.82rem;opacity:.7;margin:14px 0 0}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
+.step{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;counter-increment:s}
+.step::before{content:counter(s);grid-row:span 2;width:48px;height:48px;border-radius:14px;background:var(--brand-soft);color:var(--hazard);font-family:var(--f-display);font-weight:800;font-size:1.35rem;display:grid;place-items:center}
+.step h3{margin:0;font-family:var(--f-display);font-weight:800;letter-spacing:-.02em;font-size:1.2rem;line-height:1.2;padding-top:4px}
+.step p{margin:0;color:var(--muted)}
+
+/* demo band */
+.demo{position:relative;color:#fff;overflow:hidden;background:#534AB7}
+.demo::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 90% at 92% 50%,rgba(255,255,255,.16),transparent 70%),radial-gradient(40% 60% at 0% 0%,rgba(38,33,92,.35),transparent 70%)}
+.demo .wrap{position:relative;z-index:1;display:grid;gap:18px}
+.demo .eyebrow{color:var(--lav)}
+.demo p.sub{color:rgba(255,255,255,.88);margin:0}
+.views{display:flex;flex-wrap:wrap;gap:8px}
+.views a{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);text-decoration:none;font-weight:600;font-size:.92rem}
+.views a:hover{background:rgba(255,255,255,.2)}
+
+/* pricing + waitlist */
+.price{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);border:2px solid var(--hazard);overflow:hidden}
+.price-h{background:var(--brand);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price-h b{font-family:var(--f-display);font-weight:800;font-size:1.15rem}
+.price-h .tag{background:var(--lav);color:#26215C;font-weight:700;font-size:.78rem;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.price-b{padding:20px 18px;display:grid;gap:16px}
+.amount{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.amount strong{font-family:var(--f-display);font-weight:800;letter-spacing:-.04em;font-size:3.3rem;line-height:1;font-variant-numeric:tabular-nums}
+.amount span{color:var(--muted);font-weight:600}
+.calc{display:grid;gap:8px;background:var(--surface-2);border-radius:12px;padding:12px 14px}
+.calc label{font-weight:700;font-size:.92rem;display:flex;justify-content:space-between}
+.calc input[type=range]{width:100%;accent-color:var(--brand);height:32px}
+.calc .tot{font-size:.95rem;color:var(--muted)}
+.calc .tot b{color:var(--ink);font-size:1.15rem;font-variant-numeric:tabular-nums}
+.incl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.incl li{display:flex;gap:10px;align-items:flex-start}
+.incl .ic{color:var(--ok);margin-top:2px}
+.incl em{font-style:normal;font-size:.72rem;font-weight:700;background:var(--hazard);color:var(--hazard-ink);padding:2px 6px;border-radius:4px;margin-left:4px;vertical-align:2px}
+#waitlist{margin-top:36px}
+.wl{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:20px 18px;display:grid;gap:14px}
+.field{display:grid;gap:6px}
+.field label{font-weight:700;font-size:.95rem}
+.field input,.field select{font:inherit;font-size:1.05rem;min-height:54px;padding:0 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%}
+.field input:focus,.field select:focus{outline:3px solid var(--hazard);outline-offset:1px;border-color:var(--brand)}
+.err{color:var(--danger);font-weight:600;font-size:.9rem;margin:0}
+.privacy{font-size:.85rem;color:var(--muted);margin:0}
+.thanks{background:var(--ok-bg);border-radius:16px;padding:26px 20px;display:grid;gap:8px;text-align:center;border:2px solid var(--ok);animation:fade .4s}
+.thanks .ic{width:48px;height:48px;color:var(--ok);margin:0 auto}
+.thanks h3{margin:0;font-family:var(--f-display);font-weight:800;letter-spacing:-.02em;font-size:1.6rem}
+.thanks p{margin:0;color:var(--muted)}
+footer.site{padding-block:28px;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line);display:block}
+footer.site p{margin:0 0 8px}
+footer.site a{color:var(--muted)}
+
+/* problem → fix */
+.pfwrap{display:grid;gap:22px}
+.pf-intro{display:grid;gap:16px;align-content:start}
+.pf-intro h2{margin-bottom:6px}
+.seg{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;justify-self:start;box-shadow:var(--shadow)}
+.seg button{min-height:48px;padding:0 16px;border-radius:999px;font-weight:700;font-size:.95rem;display:inline-flex;align-items:center;justify-content:center;gap:7px;color:var(--muted);transition:background .25s,color .25s}
+.seg button[aria-pressed="true"]{background:var(--hazard);color:var(--hazard-ink)}
+#segBefore[aria-pressed="true"]{background:var(--s-part);color:#fff}
+.pf{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.pfc{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1),border-color .4s}
+.pfc.fixed{grid-template-rows:auto 1fr;border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.pfc .bef,.pfc .aft>div{display:flex;gap:12px;align-items:flex-start;padding:14px 16px}
+.pfc .aft{min-height:0;overflow:hidden}
+.pfc .aft>div{background:var(--ok-bg);border-top:1px dashed color-mix(in srgb,var(--ok) 40%,transparent)}
+.pfc b{display:block;font-size:1rem;line-height:1.3}
+.pfc small{display:block;color:var(--muted);font-size:.9rem;line-height:1.4;margin-top:2px}
+.pfi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--s-part-bg);color:var(--s-part);transition:opacity .4s}
+.pfi.ok{background:var(--ok);color:var(--on-ok)}
+.bef b{transition:color .4s}
+.pfc.fixed .bef b{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:color-mix(in srgb,var(--s-part) 70%,transparent);color:var(--muted)}
+.pfc.fixed .bef small{opacity:.7}
+.pfc.fixed .bef .pfi{opacity:.55}
+.pfc.fixed .aft .pfi{animation:popin .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes popin{from{transform:scale(.4);opacity:0}}
+
+/* how it works: step cards in a row, linked by arrows */
+.hw{display:grid;gap:14px}
+.hw-steps{display:grid;grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr) 26px minmax(0,1fr);align-items:stretch;gap:4px}
+.hws{position:relative;overflow:hidden;text-align:left;width:100%;display:grid;gap:8px;align-content:start;padding:12px 10px;border-radius:18px;border:1.5px solid var(--line);background:var(--surface);transition:border-color .25s,box-shadow .25s,transform .25s}
+.hws:hover{transform:translateY(-2px)}
+.hws .n{width:38px;height:38px;border-radius:12px;background:var(--brand-soft);color:var(--hazard);display:grid;place-items:center;font-weight:800;font-size:1.05rem;transition:background .25s,color .25s}
+.hws b{display:block;font-size:.9rem;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.hws small{display:none;color:var(--muted);font-size:.92rem;line-height:1.45}
+.hws[aria-selected="true"]{border-color:var(--hazard);box-shadow:var(--shadow)}
+.hws[aria-selected="true"] .n{background:var(--hazard);color:var(--hazard-ink)}
+.hws.done .n{background:var(--ok-bg);color:var(--ok)}
+.hws .bar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--hazard)}
+.hws[aria-selected="true"].timing .bar{animation:tbar var(--dur,6s) linear forwards}
+.hwa{align-self:center;justify-self:center;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1.5px solid var(--line);color:var(--muted);transition:background .3s,color .3s,border-color .3s}
+.hwa .ic{width:14px;height:14px;stroke-width:2.6}
+.hwa.on{background:var(--hazard);border-color:var(--hazard);color:var(--hazard-ink)}
+.hwa.on .ic{animation:nudgex 1.2s ease-in-out infinite}
+@keyframes nudgex{50%{transform:translateX(2px)}}
+.hw-cap{margin:2px 0 0;color:var(--muted);font-size:.98rem;min-height:2.9em}
+.hw-stage{position:relative;border-radius:22px;background:linear-gradient(150deg,var(--brand-soft),var(--surface));border:1px solid var(--line);min-height:380px;overflow:hidden}
+.hw-stage::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 45% at 50% 40%,rgba(127,119,221,.20),transparent 70%);pointer-events:none}
+.scene{position:absolute;inset:0;z-index:1;padding:20px 16px;display:grid;align-content:center;justify-items:center;gap:6px;visibility:hidden;opacity:0;transition:opacity .35s}
+.scene.on{visibility:visible;opacity:1}
+/* scene 1 */
+.chans{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:340px}
+.chan{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:.84rem;font-weight:700;box-shadow:var(--shadow)}
+.chan .ic{color:var(--hazard)}
+.scene.on .chan{animation:nudge .5s ease both;animation-delay:calc(var(--i)*.55s)}
+@keyframes nudge{0%{transform:none}40%{transform:translateY(8px) scale(1.06);border-color:var(--hazard)}100%{transform:none}}
+.funnel{width:min(300px,90%);height:40px;fill:none;stroke:var(--lav);stroke-width:2;stroke-dasharray:4 5}
+.scene.on .funnel path{animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-18}}
+.list{width:min(340px,100%);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden}
+.lh{background:var(--brand);color:#fff;font-weight:700;font-size:.82rem;padding:9px 12px}
+.lr{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 12px;border-top:1px solid var(--line);font-size:.84rem}
+.lr b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.lr em{font-style:normal;font-size:.72rem;font-weight:700;color:var(--muted);background:var(--surface-2);padding:2px 7px;border-radius:6px}
+.scene.on .lr{animation:slidein .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.3s + var(--i)*.55s)}
+@keyframes slidein{from{opacity:0;transform:translateY(-14px)}}
+/* scene 2 */
+.jcard{width:min(360px,100%);background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-lg);padding:16px;display:grid;gap:12px}
+.jt{font-size:1.05rem;line-height:1.3}
+.stg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.stg span{font-size:.66rem;font-weight:800;text-align:center;padding:7px 2px;border-radius:8px;background:var(--surface-2);color:var(--muted);line-height:1.15;display:grid;place-items:center}
+.scene.on .stg span{animation:lit .35s ease both;animation-delay:calc(.4s + var(--i)*.85s)}
+@keyframes lit{from{transform:scale(.9)}to{background:var(--sc);color:#fff;transform:none}}
+.track{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--s-new),var(--s-assigned),var(--s-part),var(--s-progress),var(--s-complete))}
+.scene.on .track i{animation:fill 4.1s cubic-bezier(.4,0,.2,1) .4s both}
+@keyframes fill{to{width:100%}}
+.who{display:flex;align-items:center;gap:10px;font-size:.84rem;color:var(--muted)}
+.who b{color:var(--ink)}
+.tap{margin-left:auto;width:40px;height:40px;border-radius:12px;background:var(--hazard);color:var(--hazard-ink);display:grid;place-items:center;flex:none}
+.scene.on .tap{animation:tapp .85s ease .4s 5}
+@keyframes tapp{40%{transform:scale(.85)}}
+.ping{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--ok);color:var(--on-ok);font-weight:700;font-size:.85rem;padding:8px 14px;border-radius:999px}
+.scene.on .ping{animation:rise .5s cubic-bezier(.3,1.5,.5,1) 4.4s both}
+.scene.on .ping.p3{animation-delay:1.9s;background:var(--brand);color:#fff}
+@keyframes rise{from{opacity:0;transform:translateY(12px) scale(.9)}}
+/* scene 3 */
+.docs{position:relative;width:min(340px,100%);height:222px}
+.dv{position:absolute;left:0;right:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow)}
+.dv b{display:block;font-size:.95rem}
+.dv small{font-size:.76rem;color:var(--muted)}
+.dv .ft{width:34px;height:40px;font-size:.55rem}
+.old2{top:0}.old1{top:64px}.cur{top:136px}
+.scene.on .old2{animation:back .7s ease .5s both}
+.scene.on .old1{animation:back .7s ease .8s both}
+@keyframes back{to{transform:translateY(16px) scale(.9);opacity:.4;filter:grayscale(1)}}
+.scene.on .cur{animation:front .7s cubic-bezier(.3,1.4,.5,1) 1.2s both;border:2px solid var(--ok);box-shadow:var(--shadow-lg)}
+@keyframes front{from{transform:translateY(-130px) scale(.92);opacity:0}}
+.badge{display:inline-flex;align-items:center;gap:4px;background:var(--ok);color:var(--on-ok);font-size:.72rem;font-weight:800;padding:4px 8px;border-radius:999px}
+.badge .ic{width:14px;height:14px}
+
+/* audience */
+.eyebrow.aud{display:inline-flex;align-items:center;gap:8px;font-size:.78rem!important;padding:8px 14px!important;letter-spacing:.04em}
+.eyebrow.aud .ic{width:16px;height:16px}
+.lead strong{color:var(--ink);font-weight:700}
+.madefor{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.mf-l{font-size:.78rem;font-weight:700;color:var(--muted);margin-right:2px}
+.mf{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:.84rem;font-weight:700;box-shadow:var(--shadow)}
+.mf .ic{width:15px;height:15px;color:var(--hazard)}
+.who-lay{display:grid;gap:16px}
+.roles{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.role{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.role::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc)}
+.role:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.ri{width:48px;height:48px;border-radius:14px;background:var(--tb);color:var(--tc);display:grid;place-items:center;flex:none}
+.ri .ic{width:24px;height:24px}
+.role b{display:block;font-size:1.08rem;font-weight:800;letter-spacing:-.01em}
+.role small{display:block;color:var(--muted);font-size:.93rem;line-height:1.45;margin-top:3px}
+.fit{background:var(--brand-deep);color:#fff;border-radius:20px;padding:20px;display:grid;gap:12px;align-content:start;position:relative;overflow:hidden}
+.fit::after{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:rgba(127,119,221,.35);pointer-events:none}
+.fit>*{position:relative}
+.fit-h{display:flex;align-items:center;gap:10px;font-size:1.15rem}
+.fit-h b{color:#fff;font-weight:800}
+.fit-h .ic{width:30px;height:30px;padding:6px;border-radius:9px;background:var(--lav);color:#26215C;stroke-width:2.6}
+.fit ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.fit li{display:flex;gap:10px;align-items:flex-start;font-size:.97rem;line-height:1.4;color:rgba(238,237,254,.88)}
+.fit li b{color:#fff}
+.fit li .ic{width:20px;height:20px;color:#5DCAA5;flex:none;margin-top:1px;stroke-width:2.6}
+.fit-f{margin:4px 0 0;padding-top:12px;border-top:1px solid rgba(206,203,246,.22);font-size:.9rem;color:rgba(238,237,254,.8)}
+.fit-f b{color:var(--lav)}
+/* reveal on scroll */
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .js .rv{opacity:1;transform:none}
+}
+
+/* ---------- larger screens ---------- */
+@media (min-width:600px){
+  .ctas{grid-template-columns:auto auto;justify-content:start}
+  .stds{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (min-width:860px){
+  body{padding-bottom:0}
+  .dock{display:none}
+  .nav{display:flex}
+  .top .join{display:inline-flex}
+  .brandlink{flex:0 0 auto;margin-right:auto}
+  .hero-in{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;padding-block:64px 72px;gap:48px}
+  section.band{padding-block:72px}
+  .prob{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px;align-items:start}
+  .fpanel{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+  .ftabs{margin:0;padding-inline:2px;flex-wrap:wrap}
+  .spot{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px}
+  .spot.flip .photo{order:2}
+  .isolay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .step{grid-template-columns:1fr}
+  .step::before{grid-row:auto;margin-bottom:8px}
+  .demo .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:center}
+  #waitlist{margin-top:0}
+  .roles{grid-template-columns:1fr 1fr}
+  .role{flex-direction:column}
+  .who-lay{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:stretch}
+  .pfwrap{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:40px;align-items:start}
+  .pf-intro{position:sticky;top:calc(var(--head-h) + 24px)}
+  .hw-steps{grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr) 44px minmax(0,1fr);gap:6px}
+  .hws{grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:16px 18px}
+  .hws .n{width:44px;height:44px;grid-row:span 2;font-size:1.15rem}
+  .hws b{font-size:1.08rem;padding-top:2px}
+  .hws small{display:block}
+  .hwa{width:38px;height:38px}
+  .hwa .ic{width:18px;height:18px}
+  .hw-cap{display:none}
+  .hw-stage{min-height:400px}
+  .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+}
+@media (max-width:359px){
+  .top .demo-btn .lbl-long{display:none}
+  .name{font-size:1.35rem}
+}
+@media (min-width:360px){.top .demo-btn .lbl-short{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ STICKY TOP BAR ============ -->
+<header class="top" id="top">
+  <div class="wrap top-in">
+    <a class="brandlink" href="#home" aria-label="Snagboard home">
+      <span class="logo" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/><path d="m14 16 2 2 4-4"/></svg></span>
+      <span class="name">Snagboard</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#who">Who it’s for</a>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#iso">ISO</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a class="btn btn-sm btn-outline join" href="#waitlist">Join waiting list</a>
+    <a class="btn btn-sm btn-hazard demo-btn" href="https://mm102026.github.io/BM-Hub-Demo/"><svg class="ic" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg><span class="lbl-long">Try the demo</span><span class="lbl-short">Demo</span></a>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="home">
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-icons" aria-hidden="true">
+    <svg class="ic h1i" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>
+    <svg class="ic h2i" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21V8l8 3v10"/><path d="M2 21h20M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></svg>
+    <svg class="ic h3i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+    <svg class="ic h4i" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>
+    <svg class="ic h5i" viewBox="0 0 24 24"><path d="M3 17h18v2.5H3z"/><path d="M5 17a7 7 0 0 1 14 0"/><path d="M10 11V6.5h4V11"/></svg>
+    <svg class="ic h6i" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+  </div>
+  <div class="wrap hero-in">
+    <div style="display:grid;gap:18px">
+      <span class="eyebrow aud"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21V8l8 3v10"/><path d="M2 21h20M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></svg>Built for facilities managers with more than one site</span>
+      <h1>One true record of every <span class="rot" id="rot" aria-live="off"><span>job</span></span><br>on every site.</h1>
+      <p class="lead">Snagboard is the shared system for <strong>facilities managers and their helpdesk and maintenance teams</strong>. Requests, planned maintenance, landlord repairs and the latest version of every building document, in one place everyone trusts.</p>
+      <div class="madefor" aria-label="Made for">
+        <span class="mf-l">Made for</span>
+        <span class="mf"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21V8l8 3v10"/><path d="M2 21h20M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></svg>Facilities managers</span><span class="mf"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/></svg>Helpdesk</span><span class="mf"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Technicians</span><span class="mf"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Heads of FM</span>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-hazard" href="https://mm102026.github.io/BM-Hub-Demo/"><svg class="ic" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Try the demo</a>
+        <a class="btn btn-outline" href="#waitlist">Join the waiting list</a>
+      </div>
+      <div class="stats" id="stats">
+        <div class="stat" style="--tc:var(--hazard);--tb:var(--brand-soft)">
+          <span class="si"><svg class="ic" viewBox="0 0 24 24"><path d="M3 13h5l1.5 3h5l1.5-3h5"/><path d="M5.5 5h13L21 13v6H3v-6z"/></svg></span>
+          <b class="sn"><span data-count="5">0</span><svg class="ic arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><em>1</em></b>
+          <span class="sl">channels into one list</span>
+          <span class="mini" aria-hidden="true"><span class="mc" style="--i:0"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span><span class="mc" style="--i:1"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="mc" style="--i:2"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><span class="mc" style="--i:3"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c.5-4.5 3-7 7-7s6.5 2.5 7 7"/></svg></span><svg class="ic ma" viewBox="0 0 24 24" style="--i:4"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span class="mc solid" style="--i:5"><svg class="ic" viewBox="0 0 24 24"><path d="M3 13h5l1.5 3h5l1.5-3h5"/><path d="M5.5 5h13L21 13v6H3v-6z"/></svg></span></span>
+        </div>
+        <div class="stat" style="--tc:var(--s-progress);--tb:var(--s-progress-bg)">
+          <span class="si"><svg class="ic" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg></span>
+          <b class="sn"><span data-count="5">0</span></b>
+          <span class="sl">views of one live record</span>
+          <span class="mini" aria-hidden="true"><span class="mc" style="--i:0"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/></svg></span><span class="mc" style="--i:1"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span class="mc" style="--i:2"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span><span class="mc" style="--i:3"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></span><span class="mc" style="--i:4"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></span></span>
+        </div>
+        <div class="stat" style="--tc:var(--s-new);--tb:var(--s-new-bg)">
+          <span class="si"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></span>
+          <b class="sn"><span data-count="1">0</span></b>
+          <span class="sl">current version of each document</span>
+          <span class="mini" aria-hidden="true"><span class="vchip" style="--i:0">v3</span><span class="vchip cur" style="--i:1"><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>v4</span></span>
+        </div>
+      </div>
+      <p class="note">The demo runs in your browser with sample data. No sign-up needed.</p>
+    </div>
+
+    <div class="device" aria-label="Animated preview: a job moving through its stages">
+      <div class="dev-h"><span class="logo" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m14 16 2 2 4-4"/></svg></span>Helpdesk · 6 sites<span class="sample">Sample</span></div>
+      
+      <div class="dev-b">
+        <div class="tiles5" id="heroTiles"></div>
+        <div class="mjob st-new" id="heroJob">
+          <div class="mtop"><span class="pill" id="hjPill">New</span><span class="ref">SB-2044</span><span class="age">9 days</span></div>
+          <b>Main entrance auto door sticking open</b>
+          <small>Sandyford Park · Ground floor reception · Landlord</small>
+          <div class="prog" id="hjProg"><i></i><i></i><i></i><i></i><i></i></div>
+          <button class="madv" id="hjBtn" tabindex="-1" aria-hidden="true">Assign</button>
+        </div>
+        <div class="mjob st-progress">
+          <div class="mtop"><span class="pill">In progress</span><span class="ref">SB-2041</span><span class="age">2 days</span></div>
+          <b>Boiling-water tap leaking under sink</b>
+          <small>Harbour Point · Level 4 east kitchen · In-house</small>
+          <div class="prog"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i></i></div>
+        </div>
+        <div class="mtoast" id="hjToast">SB-2044 → Assigned</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO IT'S FOR ============ -->
+<section class="band who" id="who">
+  <div class="wrap">
+    <span class="eyebrow rv">Who it’s for</span>
+    <h2 class="rv">Made for the people who keep buildings running</h2>
+    <p class="sub rv">Snagboard is for in-house facilities teams in organisations with several offices or sites, from one FM with two buildings to a national portfolio.</p>
+    <div class="who-lay">
+      <ul class="roles">
+        <li class="role rv" style="--tc:var(--hazard);--tb:var(--brand-soft)">
+          <span class="ri"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21V8l8 3v10"/><path d="M2 21h20M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2"/></svg></span>
+          <span><b>Facilities managers</b><small>See every site at a glance: what’s open, what’s overdue and what the landlord owes you.</small></span>
+        </li>
+        <li class="role rv d1" style="--tc:var(--s-new);--tb:var(--s-new-bg)">
+          <span class="ri"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/></svg></span>
+          <span><b>Helpdesk teams</b><small>Log every request once, route it to the right person, and answer “is it fixed?” without a phone call.</small></span>
+        </li>
+        <li class="role rv d2" style="--tc:var(--s-progress);--tb:var(--s-progress-bg)">
+          <span class="ri"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+          <span><b>Maintenance technicians</b><small>Your jobs on your phone. One big tap to move each one on, plus the right manual for the job.</small></span>
+        </li>
+        <li class="role rv d3" style="--tc:var(--s-assigned);--tb:var(--s-assigned-bg)">
+          <span class="ri"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span><b>Heads of FM</b><small>Portfolio-wide oversight, controlled documents and ISO-ready evidence for audits.</small></span>
+        </li>
+      </ul>
+      <div class="fit rv d1">
+        <div class="fit-h"><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg><b>Snagboard is a fit if…</b></div>
+        <ul><li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg><span>You look after <b>two or more buildings</b>, offices or sites</span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg><span>Requests reach you by <b>email, chat, phone and in person</b></span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg><span>You use a <b>mix of in-house technicians and contractors</b></span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg><span>Some repairs are <b>your landlord’s responsibility</b></span></li><li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg><span>You keep <b>statutory, health &amp; safety or ISO records</b></span></li></ul>
+        <p class="fit-f">Typical teams: <b>2–30 sites</b>, 1–20 technicians, a helpdesk of one or more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM → FIX ============ -->
+<section class="band" id="problem">
+  <div class="wrap pfwrap">
+    <div class="pf-intro">
+      <span class="eyebrow rv">The problem, fixed</span>
+      <h2 class="rv">Sound familiar? Here’s what changes.</h2>
+      <blockquote class="quote rv">
+        <p>“Requests reach me by chat, email, the phone and people stopping me on the stairs. By Friday I honestly can’t tell you which ones are finished.”</p>
+        <footer>How facility managers describe a normal week</footer>
+      </blockquote>
+      <div class="seg rv" role="group" aria-label="Show the problem or the fix">
+        <button type="button" id="segBefore" aria-pressed="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>Before</button>
+        <button type="button" id="segAfter" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>With Snagboard</button>
+      </div>
+    </div>
+
+    <ul class="pf" id="pf">
+      <li class="pfc rv">
+        <div class="bef"><span class="pfi"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span><b>Requests arrive five different ways</b><small>Chat, email, calls, the helpdesk and the corridor. No single list.</small></span></div>
+        <div class="aft"><div><span class="pfi ok"><svg class="ic" viewBox="0 0 24 24"><path d="M3 13h5l1.5 3h5l1.5-3h5"/><path d="M5.5 5h13L21 13v6H3v-6z"/></svg></span><span><b>Logged once, in one list</b><small>Every request gets a reference, site, floor and priority, whatever channel it came in on.</small></span></div></div>
+      </li>
+      <li class="pfc rv d1">
+        <div class="bef"><span class="pfi"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><span><b>“Is it fixed yet?” calls all day</b><small>Nobody knows who’s on what, or what’s waiting on a part.</small></span></div>
+        <div class="aft"><div><span class="pfi ok"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span><span><b>Live status from the technician’s phone</b><small>Five clear stages and a “who’s on what” strip answer the question before anyone asks.</small></span></div></div>
+      </li>
+      <li class="pfc rv d2">
+        <div class="bef"><span class="pfi"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></span><span><b>Landlord repairs drift for weeks</b><small>No record of who was chased, or when.</small></span></div>
+        <div class="aft"><div><span class="pfi ok"><svg class="ic" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg></span><span><b>Every chase dated, with the lease clause</b><small>Track each item from reported to resolved, with the agent’s reference on file.</small></span></div></div>
+      </li>
+      <li class="pfc rv d3">
+        <div class="bef"><span class="pfi"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span><b>Statutory checks in one person’s spreadsheet</b><small>Reception finds out the fire alarm service is today when the contractor arrives.</small></span></div>
+        <div class="aft"><div><span class="pfi ok"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg></span><span><b>One planned calendar everyone sees</b><small>Every check for every site, who’s doing it, and whether it’s the landlord’s.</small></span></div></div>
+      </li>
+      <li class="pfc rv d3">
+        <div class="bef"><span class="pfi"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg></span><span><b>Three copies of every manual</b><small>And an audit coming up, with no idea which is current.</small></span></div>
+        <div class="aft"><div><span class="pfi ok"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><b>One current version, ready for audit</b><small>Owner, review date and role-based access on every document.</small></span></div></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS (animated) ============ -->
+<section class="band alt" id="how">
+  <div class="wrap">
+    <span class="eyebrow rv">How it works</span>
+    <h2 class="rv">Three steps. One record.</h2>
+    <p class="sub rv">Built for a technician with a phone in one gloved hand, and a facility manager at a desk with six sites to watch.</p>
+    <div class="hw rv">
+      <div class="hw-steps" role="tablist" aria-label="How it works">
+        <button class="hws" role="tab" id="hwt0" aria-controls="hwstage" aria-selected="true"><span class="n">1</span><span><b>Log it once</b><small>Whatever the channel, the helpdesk logs it in one list with the site, floor, priority and who’s responsible.</small></span><i class="bar"></i></button>
+        <span class="hwa" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <button class="hws" role="tab" id="hwt1" aria-controls="hwstage" aria-selected="false" tabindex="-1"><span class="n">2</span><span><b>Move it on with one tap</b><small>Technicians tap through five stages. Everyone sees the same status, age and owner, live.</small></span><i class="bar"></i></button>
+        <span class="hwa" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <button class="hws" role="tab" id="hwt2" aria-controls="hwstage" aria-selected="false" tabindex="-1"><span class="n">3</span><span><b>Open the latest version</b><small>Every document has one current version, an owner and a review date. Old versions stay in history.</small></span><i class="bar"></i></button>
+      </div>
+
+      <p class="hw-cap" id="hwcap" aria-hidden="true"></p>
+      <div class="hw-stage" id="hwstage" role="tabpanel" aria-live="polite">
+        <!-- scene 1: channels → one list -->
+        <div class="scene on" data-s="0" aria-label="Requests from chat, email, phone and in person landing in one list">
+          <div class="chans">
+            <span class="chan" style="--i:0"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Chat</span>
+            <span class="chan" style="--i:1"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</span>
+            <span class="chan" style="--i:2"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</span>
+            <span class="chan" style="--i:3"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c.5-4.5 3-7 7-7s6.5 2.5 7 7"/></svg>In person</span>
+          </div>
+          <svg class="funnel" viewBox="0 0 300 40" aria-hidden="true"><path d="M30 0 C30 25 150 15 150 40 M110 0 C110 25 150 15 150 40 M190 0 C190 25 150 15 150 40 M270 0 C270 25 150 15 150 40"/></svg>
+          <div class="list">
+            <div class="lh">Helpdesk · one list</div>
+            <div class="lr" style="--i:0"><span class="pill st-new" style="--sc:var(--s-new);--sbg:var(--s-new-bg)">New</span><b>Leak under sink · L4</b><em>Chat</em></div>
+            <div class="lr" style="--i:1"><span class="pill" style="--sc:var(--s-new);--sbg:var(--s-new-bg)">New</span><b>Screen flickering · 2.07</b><em>Email</em></div>
+            <div class="lr" style="--i:2"><span class="pill" style="--sc:var(--s-new);--sbg:var(--s-new-bg)">New</span><b>Lift 2 stalling</b><em>Call</em></div>
+            <div class="lr" style="--i:3"><span class="pill" style="--sc:var(--s-new);--sbg:var(--s-new-bg)">New</span><b>Roller blind broken</b><em>In person</em></div>
+          </div>
+        </div>
+
+        <!-- scene 2: one job moving through stages -->
+        <div class="scene" data-s="1" aria-label="A job moving through New, Assigned, Part required, In progress and Complete">
+          <div class="jcard">
+            <div class="mtop"><span class="ref">SB-2044</span><span class="age">Sandyford Park · Reception</span></div>
+            <b class="jt">Main entrance auto door sticking open</b>
+            <div class="stg">
+              <span style="--i:0;--sc:var(--s-new)">New</span><span style="--i:1;--sc:var(--s-assigned)">Assigned</span><span style="--i:2;--sc:var(--s-part)">Part</span><span style="--i:3;--sc:var(--s-progress)">In progress</span><span style="--i:4;--sc:var(--s-complete)">Complete</span>
+            </div>
+            <div class="track"><i></i></div>
+            <div class="who"><span class="av">DB</span><span><b>Darragh</b> updated it from his phone</span><span class="tap"><svg class="ic" viewBox="0 0 24 24"><path d="M9 11V5a2 2 0 0 1 4 0v5"/><path d="M13 10V8a2 2 0 0 1 4 0v3"/><path d="M17 11a2 2 0 0 1 4 0v3a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L4.5 15a2 2 0 0 1 3.4-2L9 14"/></svg></span></div>
+          </div>
+          <div class="ping"><svg class="ic" viewBox="0 0 24 24"><path d="m8 12.5 3 3 5-6"/><circle cx="12" cy="12" r="9"/></svg>Helpdesk and FM see it instantly</div>
+        </div>
+
+        <!-- scene 3: latest version wins -->
+        <div class="scene" data-s="2" aria-label="Old document versions move into history and the current version comes to the front">
+          <div class="docs">
+            <div class="dv old2"><span class="ft ft-pdf">PDF</span><span><b>O&amp;M Manual · Rev 2</b><small>Superseded · archived</small></span></div>
+            <div class="dv old1"><span class="ft ft-pdf">PDF</span><span><b>O&amp;M Manual · Rev 3</b><small>Superseded · archived</small></span></div>
+            <div class="dv cur"><span class="ft ft-pdf">PDF</span><span><b>O&amp;M Manual · Rev 4</b><small>Owner S. Kelly · review 2027</small></span><span class="badge"><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Current</span></div>
+          </div>
+          <div class="ping p3"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Opened by technicians and FMs only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURE EXPLORER ============ -->
+<section class="band alt" id="features">
+  <div class="wrap">
+    <span class="eyebrow rv">Every view, one record</span>
+    <h2 class="rv">A view for everyone on the team</h2>
+    <p class="sub rv">Helpdesk, technicians, facility managers and the head of FM all look at the same live record, each from the angle they need. Tap through the views.</p>
+
+    <div class="ftabs" role="tablist" aria-label="Product views" id="ftabs">
+      <button class="ftab" role="tab" id="tab-helpdesk" aria-controls="p-helpdesk" aria-selected="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/></svg>Helpdesk<i class="bar"></i></button>
+      <button class="ftab" role="tab" id="tab-tech" aria-controls="p-tech" aria-selected="false" tabindex="-1"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Technicians<i class="bar"></i></button>
+      <button class="ftab" role="tab" id="tab-planned" aria-controls="p-planned" aria-selected="false" tabindex="-1"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Planned<i class="bar"></i></button>
+      <button class="ftab" role="tab" id="tab-landlord" aria-controls="p-landlord" aria-selected="false" tabindex="-1"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg>Landlord<i class="bar"></i></button>
+      <button class="ftab" role="tab" id="tab-docs" aria-controls="p-docs" aria-selected="false" tabindex="-1"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Documents<i class="bar"></i></button>
+      <button class="ftab" role="tab" id="tab-iso" aria-controls="p-iso" aria-selected="false" tabindex="-1"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>ISO planning<span class="soon">Soon</span><i class="bar"></i></button>
+    </div>
+
+    <!-- Helpdesk -->
+    <div class="fpanel" role="tabpanel" id="p-helpdesk" aria-labelledby="tab-helpdesk">
+      <div>
+        <h3>Helpdesk: every request in one list</h3>
+        <p>Log a request once, whether it came by chat, email, phone or in person, and route it to the right technician and facility manager.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Stage tiles show what’s new, assigned, waiting on a part, in progress or done</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Filter by site, FM, channel, technician, landlord or tenant, and request age</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Jobs older than 7 and 14 days turn amber, then red</li>
+        </ul>
+        <a class="deeplink" href="https://mm102026.github.io/BM-Hub-Demo/#helpdesk">Open the helpdesk in the demo <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="device"><div class="dev-h">Helpdesk<span class="sample">Sample</span></div>
+        <div class="dev-b">
+          <div class="tiles5">
+            <div class="t5 st-new"><b>3</b>New</div><div class="t5 st-assigned"><b>3</b>Assigned</div><div class="t5 st-part"><b>3</b>Part</div><div class="t5 st-progress"><b>3</b>Progress</div><div class="t5 st-complete"><b>2</b>Done</div>
+          </div>
+          <div class="mjob st-assigned"><div class="mtop"><span class="pill">Assigned</span><span class="ref">SB-2042</span><span class="age" style="color:var(--danger)">Urgent</span></div><b>Lift 2 stopping between floors 3 and 4</b><small>Harbour Point · Landlord · lift contractor on call-out</small><div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+          <div class="mjob st-part"><div class="mtop"><span class="pill">Part required</span><span class="ref">SB-2054</span><span class="age" style="color:var(--danger)">22 days</span></div><b>Heating boiler lockout fault</b><small>Sandyford Park · ignition PCB on 10-day lead time</small><div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+        </div></div>
+    </div>
+
+    <!-- Technicians -->
+    <div class="fpanel" role="tabpanel" id="p-tech" aria-labelledby="tab-tech" hidden>
+      <div>
+        <h3>Technicians: big buttons, gloved thumbs</h3>
+        <p>Each technician sees their own jobs with the full detail, and moves them on with one large tap. Undo is always there.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Tap targets sized for phones on site, in light or dark mode</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>See which jobs need a contractor or a part</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Reassign a job to a colleague in two taps</li>
+        </ul>
+        <a class="deeplink" href="https://mm102026.github.io/BM-Hub-Demo/#technicians">Open technician view in the demo <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="device"><div class="dev-h">Darragh’s jobs<span class="sample">Sample</span></div>
+        <div class="dev-b">
+          <div class="crew">
+            <div class="crewc on"><span class="av">DB</span><span><b>Darragh</b><small>Harbour Pt · 3 open</small></span></div>
+            <div class="crewc"><span class="av">CD</span><span><b>Ciarán</b><small>Sandyford · 3 open</small></span></div>
+          </div>
+          <div class="mjob st-new" id="techJob"><div class="mtop"><span class="pill" id="tjPill">New</span><span class="ref">SB-2053</span><span class="age">Today</span></div><b>Floor box socket tripping</b><small>Level 6 · Desk bank F12 · In-house</small><small style="color:var(--ink)">Floor box trips the RCD when a monitor power supply is plugged in. Isolate, test circuit, check the PSU.</small><div class="prog" id="tjProg"><i class="on"></i><i></i><i></i><i></i><i></i></div><button class="madv" id="tjBtn" tabindex="-1" aria-hidden="true" style="min-height:48px;font-size:.95rem;width:100%;justify-content:center">Assign Darragh</button></div>
+        </div></div>
+    </div>
+
+    <!-- Planned -->
+    <div class="fpanel" role="tabpanel" id="p-planned" aria-labelledby="tab-planned" hidden>
+      <div>
+        <h3>Planned maintenance everyone can see</h3>
+        <p>The whole year of statutory and routine checks for every site, on one calendar. The helpdesk, technicians and FMs all know what’s due, who is doing it, and whether it’s the landlord’s job.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Fire, water hygiene, lifts, HVAC, electrical and fabric, colour-coded</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Filter by site or type; see contractor versus in-house work</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Today’s tasks badge on the tab so nothing slips</li>
+        </ul>
+        <a class="deeplink" href="https://mm102026.github.io/BM-Hub-Demo/#planned">Open the calendar in the demo <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="device"><div class="dev-h">Planned maintenance<span class="sample">Sample</span></div>
+        <div class="dev-b">
+          <div class="mcal"><div class="mcal-h"><span id="calTitle">November</span><span class="eyebrow">All sites</span></div><div class="mcal-g" id="calGrid"></div></div>
+          <div class="legend"><span class="cat-fire"><i></i>Fire</span><span class="cat-water"><i></i>Water</span><span class="cat-lifts"><i></i>Lifts</span><span class="cat-hvac"><i></i>HVAC</span><span class="cat-elec"><i></i>Electrical</span><span class="cat-fabric"><i></i>Fabric</span></div>
+          <div class="seen"><div class="stack"><span class="av">EN</span><span class="av">DB</span><span class="av">SK</span><span class="av">CD</span></div><span>Helpdesk, technicians and FMs see the same schedule</span></div>
+        </div></div>
+    </div>
+
+    <!-- Landlord -->
+    <div class="fpanel" role="tabpanel" id="p-landlord" aria-labelledby="tab-landlord" hidden>
+      <div>
+        <h3>Landlord tracker with proof you chased</h3>
+        <p>Lifts, central plant, roof and common parts are often the landlord’s to fix. Track each one from reported to resolved, with the lease clause, agent reference and every chase logged.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Reported → Acknowledged → Works scheduled → Resolved</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>“Log a chase” records the date in one tap</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>See items not acknowledged, chased twice, or over 14 days</li>
+        </ul>
+        <a class="deeplink" href="https://mm102026.github.io/BM-Hub-Demo/#landlord">Open the landlord tracker in the demo <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="device"><div class="dev-h">Landlord tracker<span class="sample">Sample</span></div>
+        <div class="dev-b">
+          <div class="llc">
+            <div class="mtop st-assigned"><span class="pill">Assigned</span><span class="ref">SB-2051</span><span class="age" style="color:var(--danger)">18 days with landlord</span></div>
+            <b>Cracked floor tiles at reception · trip hazard</b>
+            <dl class="kv2"><div><dt>Lease clause</dt><dd>cl. 5.2 Common parts</dd></div><div><dt>Agent ref</dt><dd style="font-family:var(--f-mono)">DEA-MQ-0571</dd></div><div><dt>Contractor</dt><dd>Flooring contractor</dd></div><div><dt>Chased</dt><dd id="llChased">3×</dd></div></dl>
+            <div class="lsteps" id="llSteps"><div class="on"><i></i>Reported</div><div class="on"><i></i>Acknowl.</div><div><i></i>Scheduled</div><div><i></i>Resolved</div></div>
+            <span class="chase" id="llChase">Chase logged today</span>
+          </div>
+        </div></div>
+    </div>
+
+    <!-- Documents -->
+    <div class="fpanel" role="tabpanel" id="p-docs" aria-labelledby="tab-docs" hidden>
+      <div>
+        <h3>A single store for important documents</h3>
+        <p>O&amp;M manuals, safety statements, certificates, floor plans, leases and contracts. Each has one current version, an owner and a review date, and access follows the person’s role.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Older versions kept in history, never in someone’s inbox</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>“Review overdue” flags before an auditor finds them</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Four access levels, up to strictly confidential</li>
+        </ul>
+        <a class="deeplink" href="https://mm102026.github.io/BM-Hub-Demo/#documents">Open the document store in the demo <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="device"><div class="dev-h">Documents<span class="sample">Sample</span></div>
+        <div class="dev-b">
+          <div class="rolebar"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>Viewing as Operations technician · 2 locked</div>
+          <div class="mdoc"><span class="ft ft-pdf">PDF</span><span><b>Building O&amp;M Manual · Rev 4</b><small>Harbour Point · v4.0 · Aug 2026</small></span><span class="acc acc-ops">Tech &amp; FM</span></div>
+          <div class="mdoc"><span class="ft ft-pdf">PDF</span><span><b>Fire safety register &amp; evacuation plan</b><small>All sites · v5.2 · Sep 2026</small></span><span class="acc acc-all">Everyone</span></div>
+          <div class="mdoc"><span class="ft ft-docx">DOCX</span><span><b>Permit to work procedure</b><small>All sites · v3.1 · <span class="over">Review overdue</span></small></span><span class="acc acc-ops">Tech &amp; FM</span></div>
+          <div class="mdoc locked"><span class="ft ft-xlsx">XLSX</span><span><b>Access control &amp; key register</b><small>All sites · Live</small></span><span class="acc acc-head">Locked</span></div>
+        </div></div>
+    </div>
+
+    <!-- ISO -->
+    <div class="fpanel" role="tabpanel" id="p-iso" aria-labelledby="tab-iso" hidden>
+      <div>
+        <h3>ISO accreditation planning</h3>
+        <p>The records you already keep in Snagboard (controlled documents, planned maintenance completed on time, job history and landlord correspondence) become the evidence an auditor asks for.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Readiness by standard, with the evidence behind each score</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Internal audits and management reviews on the planned calendar</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Export an evidence pack for your certification body</li>
+        </ul>
+        <a class="deeplink" href="#iso">See how ISO planning works <svg class="ic" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="device"><div class="dev-h">ISO readiness<span class="sample">Concept</span></div>
+        <div class="dev-b">
+          <div class="isogrid" id="isoRings">
+            <div class="isoc"><span class="ring" data-v="78"><span>0%</span></span><span><b>ISO 41001</b><small>Facility management</small></span></div>
+            <div class="isoc"><span class="ring" data-v="64" style="--rc:var(--s-part)"><span>0%</span></span><span><b>ISO 45001</b><small>Health &amp; safety</small></span></div>
+            <div class="isoc"><span class="ring" data-v="52" style="--rc:var(--s-part)"><span>0%</span></span><span><b>ISO 14001</b><small>Environmental</small></span></div>
+            <div class="isoc"><span class="ring" data-v="85"><span>0%</span></span><span><b>ISO 9001</b><small>Quality</small></span></div>
+          </div>
+          <div class="evi">
+            <div><span>Document control · 24 docs</span><span class="okk">22 current</span></div>
+            <div><span>Statutory checks on time</span><span class="okk">96%</span></div>
+            <div><span>Internal audit · Harbour Point</span><span class="due">Due 14 Jan</span></div>
+            <div><span>Management review</span><span class="due">Due 3 Feb</span></div>
+          </div>
+        </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPOTLIGHTS (photos) ============ -->
+<section class="band">
+  <div class="wrap">
+    <div class="spot" id="planned">
+      <figure class="photo illo rv" style="margin:0" aria-label="Illustration: a shared calendar surrounded by fire, water, lift and heating checks">
+        <div class="illo-in" aria-hidden="true">
+          <span class="illo-main"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg></span>
+          <span class="orb o1" style="--oc:var(--c-fire)"><svg class="ic" viewBox="0 0 24 24"><path d="M12 21c-4 0-6.5-2.7-6.5-6 0-4 4-6 4-11 3 2 9 6 9 11 0 3.3-2.5 6-6.5 6z"/></svg></span>
+          <span class="orb o2" style="--oc:var(--c-water)"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg></span>
+          <span class="orb o3" style="--oc:var(--c-lifts)"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M12 3v18M7.5 10 9 8l1.5 2M13.5 14l1.5 2 1.5-2"/></svg></span>
+          <span class="orb o4" style="--oc:var(--c-hvac)"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 10c0-4 1-7 4-7 2 0 2 3-1 6M14 12c4 0 7 1 7 4 0 2-3 2-6-1M12 14c0 4-1 7-4 7-2 0-2-3 1-6M10 12c-4 0-7-1-7-4 0-2 3-2 6 1"/></svg></span>
+          <span class="orb o5" style="--oc:var(--c-elec)"><svg class="ic" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></svg></span>
+        </div>
+        <div class="floaty cat-hvac"><span class="dotc"></span>AHU filter change · due Fri</div>
+        <figcaption><span class="chipf"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>Visible to the whole team</span></figcaption>
+      </figure>
+      <div class="rv d1">
+        <span class="eyebrow">Planned maintenance</span>
+        <h3>No more “I didn’t know the fire alarm service was today”</h3>
+        <p>Every quarterly service, monthly emergency-lighting test and annual gas safety check sits on a shared calendar. Reception knows when contractors are coming, technicians know what’s theirs, and FMs see what the landlord owes.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>A full annual schedule across all sites</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Counts by type each month, so busy weeks are obvious</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="spot flip" id="documents">
+      <figure class="photo illo rv" style="margin:0" aria-label="Illustration: one current document protected by role-based access and version history">
+        <div class="illo-in" aria-hidden="true">
+          <span class="illo-main"><svg class="ic" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></span>
+          <span class="orb o1" style="--oc:var(--danger)"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="orb o2" style="--oc:var(--s-complete)"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span class="orb o3" style="--oc:var(--s-new)"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4v6h6"/><path d="M5 15a8 8 0 1 0 2-8.5L4 10"/></svg></span>
+          <span class="orb o4" style="--oc:var(--s-part)"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="orb o5" style="--oc:var(--s-assigned)"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 21V8l8 3v10"/><path d="M2 21h20"/></svg></span>
+        </div>
+        <div class="floaty"><span class="ft ft-pdf" style="width:24px;height:28px;font-size:.45rem">PDF</span>O&amp;M Manual · v4.0 current</div>
+        <figcaption><span class="chipf"><svg class="ic" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Access by role</span></figcaption>
+      </figure>
+      <div class="rv d1">
+        <span class="eyebrow">Document store</span>
+        <h3>The latest version, every time</h3>
+        <p>Keep manuals, safety statements, asbestos and legionella records, certificates, plans and leases in one library. Everyone opens the current approved version; confidential leases and key registers stay locked to the right people.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Owner and next review date on every document</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Version history so you can show what changed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="spot" id="technicians">
+      <figure class="photo illo rv" style="margin:0" aria-label="Illustration: a technician's toolkit with a phone used to update the job">
+        <div class="illo-in" aria-hidden="true">
+          <span class="illo-main"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></span>
+          <span class="orb o1" style="--oc:var(--brand)"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17h18v2.5H3z"/><path d="M5 17a7 7 0 0 1 14 0"/><path d="M10 11V6.5h4V11"/></svg></span>
+          <span class="orb o2" style="--oc:var(--c-elec)"><svg class="ic" viewBox="0 0 24 24"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></svg></span>
+          <span class="orb o3" style="--oc:var(--s-new)"><svg class="ic" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg></span>
+          <span class="orb o4" style="--oc:var(--s-complete)"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/></svg></span>
+          <span class="orb o5" style="--oc:var(--s-part)"><svg class="ic" viewBox="0 0 24 24"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></svg></span>
+        </div>
+        <div class="floaty st-complete" style="--cc:var(--s-complete)"><span class="dotc"></span>SB-2048 → Complete</div>
+        <figcaption><span class="chipf"><svg class="ic" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L3.5 17.5l3 3 5.7-5.7a4 4 0 0 0 5.3-5.3l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>Updated from the job</span></figcaption>
+      </figure>
+      <div class="rv d1">
+        <span class="eyebrow">On site</span>
+        <h3>Status updated where the work happens</h3>
+        <p>Technicians update the job from their phone the moment something changes, so the helpdesk can answer “is it fixed yet?” without a single phone call.</p>
+        <ul class="ticks">
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>A dated timeline for every job</li>
+          <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>“Who’s on what” strip for the whole crew</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ISO ============ -->
+<section class="band iso" id="iso">
+  <div class="wrap">
+    <span class="eyebrow rv">ISO accreditation planning · coming soon</span>
+    <h2 class="rv">Turn everyday records into audit evidence</h2>
+    <p class="sub rv">Certification bodies want to see controlled documents, planned maintenance done on time, and a trail of what happened when. Snagboard keeps all three as a side effect of normal work.</p>
+
+    <div class="stds rv" style="margin-bottom:28px">
+      <div class="std"><b>ISO 41001</b><span>Facility management systems</span></div>
+      <div class="std"><b>ISO 45001</b><span>Occupational health &amp; safety</span></div>
+      <div class="std"><b>ISO 14001</b><span>Environmental management</span></div>
+      <div class="std"><b>ISO 9001</b><span>Quality management</span></div>
+    </div>
+
+    <div class="isolay">
+      <div class="planner rv">
+        <div class="planner-h">
+          <span class="bigring" id="bigRing"><span id="bigPct">0%</span></span>
+          <div><h3>Try it: your readiness check</h3><p>Tick what you already have. Snagboard shows where each one lives.</p></div>
+        </div>
+        <div class="chk" id="chk">
+          <label><input type="checkbox"><span><b>Controlled document register</b><small>One current version, owner and review date for each document</small><span class="where">→ Document store</span></span></label>
+          <label><input type="checkbox"><span><b>Planned maintenance schedule</b><small>Statutory and routine checks, with completion records</small><span class="where">→ Planned calendar</span></span></label>
+          <label><input type="checkbox"><span><b>Corrective action log</b><small>Every reactive job, dated from report to close</small><span class="where">→ Helpdesk timeline</span></span></label>
+          <label><input type="checkbox"><span><b>Incident &amp; hazard records</b><small>Accident log and hazard register, access-controlled</small><span class="where">→ Document store · confidential</span></span></label>
+          <label><input type="checkbox"><span><b>Supplier &amp; contractor control</b><small>Approved list, insurance and induction status</small><span class="where">→ Contracts &amp; suppliers</span></span></label>
+          <label><input type="checkbox"><span><b>Internal audit &amp; management review dates</b><small>Scheduled, assigned and visible to the team</small><span class="where">→ Planned calendar</span></span></label>
+        </div>
+        <p class="privacy" id="chkMsg" style="margin:0">This check stays on your screen only.</p>
+      </div>
+
+      <div class="rv d1" style="margin-top:28px">
+        <span class="eyebrow">A typical path to certification</span>
+        <div class="road">
+          <div class="rs"><span class="n">1</span><span><b>Gap analysis</b><span>See which standard clauses your records already cover.</span></span></div>
+          <div class="rs"><span class="n">2</span><span><b>Fill the gaps</b><span>Add missing documents and schedule the checks you don’t yet track.</span></span></div>
+          <div class="rs"><span class="n">3</span><span><b>Internal audit &amp; management review</b><span>Plan both on the shared calendar so the whole team is ready.</span></span></div>
+          <div class="rs"><span class="n">4</span><span><b>Certification audit</b><span>Hand the auditor an evidence pack instead of a folder hunt.</span></span></div>
+          <div class="rs"><span class="n">5</span><span><b>Surveillance audits</b><span>Keep working as normal; the evidence keeps itself up to date.</span></span></div>
+        </div>
+        <p class="disclaim">Snagboard helps you organise evidence. Certification is awarded by an accredited certification body, not by software.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO BAND ============ -->
+<section class="band demo" id="demo">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">See it working</span>
+      <h2>Click through the demo with six sample sites</h2>
+      <p class="sub">Changes you make stay in your browser only. Jump straight to a view:</p>
+      <div class="views" style="margin-top:14px">
+        <a href="https://mm102026.github.io/BM-Hub-Demo/#helpdesk">Helpdesk</a><a href="https://mm102026.github.io/BM-Hub-Demo/#planned">Planned</a><a href="https://mm102026.github.io/BM-Hub-Demo/#technicians">Technicians</a><a href="https://mm102026.github.io/BM-Hub-Demo/#landlord">Landlord</a><a href="https://mm102026.github.io/BM-Hub-Demo/#documents">Documents</a>
+      </div>
+    </div>
+    <a class="btn btn-light rv d1" href="https://mm102026.github.io/BM-Hub-Demo/"><svg class="ic" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Try the demo</a>
+  </div>
+</section>
+
+<!-- ============ PRICING + WAITLIST ============ -->
+<section class="band" id="pricing">
+  <div class="wrap two">
+    <div class="rv">
+      <span class="eyebrow">Pricing</span>
+      <h2>One simple monthly price</h2>
+      <div class="price">
+        <div class="price-h"><b>Per site</b><span class="tag">Early-access price</span></div>
+        <div class="price-b">
+          <div class="amount"><strong>€49</strong><span>per site, per month<br>excl. VAT</span></div>
+          <div class="calc">
+            <label for="sites"><span>Your sites</span><span id="sitesN">6</span></label>
+            <input type="range" id="sites" min="1" max="30" value="6">
+            <div class="tot"><b id="sitesTot">€294</b> per month for your portfolio</div>
+          </div>
+          <ul class="incl">
+            <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Unlimited users: helpdesk, technicians and FMs</li>
+            <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Requests, planned maintenance and landlord tracker</li>
+            <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Document store with role-based access</li>
+            <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>ISO readiness planning<em>Soon</em></li>
+            <li><svg class="ic" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Cancel any month, no setup fee</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="waitlist" class="rv d1">
+      <span class="eyebrow">Waiting list</span>
+      <h2>Be first to get access</h2>
+      <form class="wl" id="wlForm" novalidate>
+        <div class="field"><label for="wlName">Your name</label><input id="wlName" type="text" autocomplete="name" placeholder="e.g. Alex Byrne"></div>
+        <div class="field"><label for="wlEmail">Work email</label><input id="wlEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@company.ie"></div>
+        <div class="field"><label for="wlSites">How many sites do you look after?</label>
+          <select id="wlSites"><option>1</option><option>2–5</option><option selected>6–15</option><option>16 or more</option></select></div>
+        <p class="err" id="wlErr" hidden>Please enter a valid email address.</p>
+        <button class="btn btn-hazard" type="submit">Join the waiting list</button>
+        <p class="privacy">This is a preview page: nothing you type here is sent or stored.</p>
+      </form>
+      <div class="thanks" id="wlThanks" hidden tabindex="-1">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/></svg>
+        <h3 id="wlThanksTitle">Thank you!</h3>
+        <p>You’re on the list. We’ll be in touch when early access opens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Snagboard · Internal alpha · All names and data in the demo are fictional.</p>
+  </div>
+</footer>
+
+<!-- ============ STICKY BOTTOM TOOLBAR (phones) ============ -->
+<nav class="dock" id="dock" aria-label="Quick actions">
+  <a class="btn btn-brand" href="https://mm102026.github.io/BM-Hub-Demo/"><svg class="ic" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Try the demo</a>
+  <a class="btn btn-hazard" href="#waitlist">Join waiting list</a>
+</nav>
+
+<script>
+(function(){
+"use strict";
+document.documentElement.classList.add("js");
+var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var $=function(id){return document.getElementById(id)};
+function onVisible(el,fn,th){
+  if(!("IntersectionObserver" in window)){fn(true);return}
+  new IntersectionObserver(function(es){es.forEach(function(e){fn(e.isIntersecting,e)})},{threshold:th||0.25}).observe(el);
+}
+
+/* ---- sticky header shadow + scroll progress ---- */
+var top=$("top"), bar=$("progress");
+function onScroll(){
+  var h=document.documentElement, max=h.scrollHeight-h.clientHeight;
+  bar.style.setProperty("--p",max>0?(h.scrollTop/max).toFixed(4):0);
+  top.classList.toggle("scrolled",h.scrollTop>4);
+}
+window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+
+/* highlight current section in nav */
+var navLinks=[].slice.call(document.querySelectorAll(".nav a"));
+navLinks.forEach(function(a){var s=document.querySelector(a.getAttribute("href"));if(s)onVisible(s,function(v){if(v){navLinks.forEach(function(x){x.classList.toggle("on",x===a)})}},0.35)});
+
+/* ---- reveal on scroll ---- */
+var rvs=document.querySelectorAll(".rv");
+if("IntersectionObserver" in window&&!reduce){
+  var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");ro.unobserve(e.target)}})},{threshold:0.12,rootMargin:"0px 0px -40px 0px"});
+  [].forEach.call(rvs,function(el){ro.observe(el)});
+}else{[].forEach.call(rvs,function(el){el.classList.add("in")})}
+
+/* ---- rotating word ---- */
+var words=["job","request","inspection","document","audit"], wi=0, rot=$("rot");
+if(!reduce)setInterval(function(){
+  var cur=rot.firstElementChild; cur.className="out";
+  setTimeout(function(){wi=(wi+1)%words.length;rot.innerHTML='<span class="in">'+words[wi]+"</span>"},320);
+},2600);
+
+/* ---- counters ---- */
+[].forEach.call(document.querySelectorAll("[data-count]"),function(el){
+  var n=+el.dataset.count, done=false;
+  onVisible(el,function(v){if(!v||done)return;done=true;
+    if(reduce){el.textContent=n;return}
+    var t0=null;(function step(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/900);el.textContent=Math.round(n*p);if(p<1)requestAnimationFrame(step)})(performance.now());
+  });
+});
+
+var statsEl=$("stats");
+onVisible(statsEl,function(v){if(v)statsEl.classList.add("go")},0.3);
+/* ---- animated job (hero + technician view) ---- */
+var STAGES=[["new","New"],["assigned","Assigned"],["part","Part required"],["progress","In progress"],["complete","Complete"]];
+var NEXT={new:"Assign",assigned:"Part needed",part:"Part in · start",progress:"Mark complete",complete:"Done ✓"};
+function animator(o){
+  var i=0, timer=null, running=false;
+  function paint(){
+    var s=STAGES[i][0];
+    o.card.className="mjob st-"+s+" flash";
+    o.pill.textContent=STAGES[i][1];
+    [].forEach.call(o.prog.children,function(b,k){b.className=k<=i?"on":""});
+    o.btn.className="madv st-"+(STAGES[Math.min(i+1,4)][0]);
+    o.btn.textContent=(o.labels||NEXT)[s];
+    if(o.tiles)o.tiles(i);
+    setTimeout(function(){o.card.classList.remove("flash")},700);
+  }
+  function tick(){
+    o.btn.classList.add("press");
+    setTimeout(function(){
+      o.btn.classList.remove("press");
+      i=(i+1)%STAGES.length; paint();
+      if(o.toast){o.toast.textContent=o.ref+" → "+STAGES[i][1];o.toast.classList.add("show");setTimeout(function(){o.toast.classList.remove("show")},1400)}
+    },220);
+  }
+  paint();
+  return{start:function(){if(running||reduce)return;running=true;timer=setInterval(tick,o.every||2200)},stop:function(){running=false;clearInterval(timer)}};
+}
+var heroCounts=[2,3,3,3,2]; // other jobs; the animated card adds one to its current stage
+var heroTiles=$("heroTiles");
+function drawTiles(i){
+  var c=heroCounts.slice(); c[i]++;
+  heroTiles.innerHTML=STAGES.map(function(s,k){return '<div class="t5 st-'+s[0]+'"><b>'+c[k]+"</b>"+["New","Assigned","Part","Progress","Done"][k]+"</div>"}).join("");
+}
+var heroAnim=animator({card:$("heroJob"),pill:$("hjPill"),prog:$("hjProg"),btn:$("hjBtn"),toast:$("hjToast"),ref:"SB-2044",tiles:drawTiles,every:2400});
+onVisible($("heroJob"),function(v){v?heroAnim.start():heroAnim.stop()},0.1);
+var techAnim=animator({card:$("techJob"),pill:$("tjPill"),prog:$("tjProg"),btn:$("tjBtn"),labels:{new:"Assign Darragh",assigned:"Start work",part:"Part in · start",progress:"Mark complete",complete:"Done ✓"},every:2000});
+
+/* ---- mini calendar ---- */
+(function(){
+  var now=new Date(), y=now.getFullYear(), m=now.getMonth()+ (now.getDate()>24?1:0);
+  var d0=new Date(y,m,1); y=d0.getFullYear(); m=d0.getMonth();
+  $("calTitle").textContent=d0.toLocaleDateString("en-IE",{month:"long",year:"numeric"});
+  var start=(d0.getDay()+6)%7, dim=new Date(y,m+1,0).getDate();
+  var plan={2:["elec"],3:["elec"],5:["hvac","fire"],9:["water"],10:["water","water"],12:["fabric"],14:["fire","fire"],16:["water","fire"],17:["lifts","elec"],18:["fire","elec"],20:["hvac"],22:["elec","fire"],24:["fabric","fabric"],26:["elec"]};
+  var h=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(function(d){return '<div class="dw">'+d[0]+"</div>"}).join("");
+  for(var i=0;i<start;i++)h+='<div class="cd out"></div>';
+  for(var d=1;d<=dim;d++){
+    var isT=now.getFullYear()===y&&now.getMonth()===m&&now.getDate()===d;
+    var bars=(plan[d]||[]).map(function(c,k){return '<i class="cat-'+c+'" style="animation-delay:'+(d*25+k*60)+'ms"></i>'}).join("");
+    h+='<div class="cd'+(isT?" today":"")+'"><span>'+d+"</span>"+bars+"</div>";
+  }
+  var rem=(7-((start+dim)%7))%7;for(i=0;i<rem;i++)h+='<div class="cd out"></div>';
+  $("calGrid").innerHTML=h;
+})();
+
+/* ---- landlord mini animation ---- */
+var llTimer=null, llN=3, llS=1;
+function llRun(on){
+  clearInterval(llTimer); if(!on||reduce)return;
+  llTimer=setInterval(function(){
+    llS=(llS+1)%4; if(llS===0){llS=1;llN=3}
+    if(llS===1){llN++;$("llChase").textContent="Chase logged just now"}else{$("llChase").textContent=llS===3?"Resolved by landlord ✓":"Agent confirmed works date"}
+    $("llChased").textContent=llN+"×";
+    [].forEach.call($("llSteps").children,function(c,k){c.className=k<=llS?"on":""});
+  },1800);
+}
+
+/* ---- ISO rings ---- */
+function rings(on){
+  [].forEach.call(document.querySelectorAll("#isoRings .ring"),function(r){
+    var v=on?+r.dataset.v:0, lbl=r.firstElementChild;
+    if(reduce||!on){r.style.setProperty("--v",v);lbl.textContent=v+"%";return}
+    var t0=null;(function step(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/900),x=Math.round(v*p);r.style.setProperty("--v",x);lbl.textContent=x+"%";if(p<1)requestAnimationFrame(step)})(performance.now());
+  });
+}
+
+/* ---- feature tabs (auto-advance until the visitor takes over) ---- */
+var tabs=[].slice.call(document.querySelectorAll(".ftab")), DUR=7000, auto=!reduce, cur=0, ftimer=null, inView=false;
+var hooks={"p-tech":function(on){on?techAnim.start():techAnim.stop()},"p-landlord":llRun,"p-iso":rings};
+function show(i,focus){
+  tabs.forEach(function(t,k){
+    var on=k===i, p=$(t.getAttribute("aria-controls"));
+    t.setAttribute("aria-selected",on);t.tabIndex=on?0:-1;t.classList.remove("timing");
+    p.hidden=!on;
+    if(hooks[p.id])hooks[p.id](on);
+  });
+  cur=i;
+  if(focus){tabs[i].focus();tabs[i].scrollIntoView({block:"nearest",inline:"nearest",behavior:reduce?"auto":"smooth"})}
+  schedule();
+}
+function schedule(){
+  clearTimeout(ftimer);
+  if(!auto||!inView)return;
+  var t=tabs[cur]; t.style.setProperty("--dur",DUR+"ms"); void t.offsetWidth; t.classList.add("timing");
+  ftimer=setTimeout(function(){show((cur+1)%tabs.length)},DUR);
+}
+function stopAuto(){auto=false;clearTimeout(ftimer);tabs.forEach(function(t){t.classList.remove("timing")})}
+tabs.forEach(function(t,i){
+  t.addEventListener("click",function(){stopAuto();show(i)});
+  t.addEventListener("keydown",function(e){
+    var k=e.key, n=null;
+    if(k==="ArrowRight")n=(i+1)%tabs.length; else if(k==="ArrowLeft")n=(i-1+tabs.length)%tabs.length; else if(k==="Home")n=0; else if(k==="End")n=tabs.length-1;
+    if(n!==null){e.preventDefault();stopAuto();show(n,true)}
+  });
+});
+var feat=$("features");
+feat.addEventListener("pointerdown",function(e){if(e.target.closest(".fpanel"))stopAuto()});
+onVisible(feat,function(v){inView=v;if(v)schedule();else clearTimeout(ftimer)},0.2);
+show(0);
+
+/* ---- ISO readiness checklist ---- */
+var boxes=[].slice.call(document.querySelectorAll("#chk input")), big=$("bigRing"), pct=$("bigPct"), msg=$("chkMsg"), shown=0;
+function updRing(){
+  var n=boxes.filter(function(b){return b.checked}).length, target=Math.round(n/boxes.length*100);
+  big.style.background="conic-gradient(var(--ok) "+target+"%, var(--line) 0)";
+  var from=shown; shown=target;
+  if(reduce){pct.textContent=target+"%"}else{var t0=null;(function step(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/400);pct.textContent=Math.round(from+(target-from)*p)+"%";if(p<1)requestAnimationFrame(step)})(performance.now())}
+  msg.textContent=n===0?"This check stays on your screen only.":n===boxes.length?"Every item has a home in Snagboard. You’re in great shape for an audit.":(boxes.length-n)+" to go. Each unticked item has a place ready for it in Snagboard.";
+}
+boxes.forEach(function(b){b.addEventListener("change",updRing)});
+
+/* ---- problem → fix cards ---- */
+var pfc=[].slice.call(document.querySelectorAll(".pfc")), sb=$("segBefore"), sa=$("segAfter"), pfAuto=true, pfTimers=[];
+function setFixed(on,stagger){
+  pfTimers.forEach(clearTimeout);pfTimers=[];
+  sb.setAttribute("aria-pressed",!on);sa.setAttribute("aria-pressed",on);
+  pfc.forEach(function(c,i){
+    if(stagger&&!reduce)pfTimers.push(setTimeout(function(){c.classList.toggle("fixed",on)},i*420));
+    else c.classList.toggle("fixed",on);
+  });
+}
+sb.addEventListener("click",function(){pfAuto=false;setFixed(false)});
+sa.addEventListener("click",function(){pfAuto=false;setFixed(true,true)});
+onVisible($("pf"),function(v){if(v&&pfAuto){pfAuto=false;pfTimers.push(setTimeout(function(){setFixed(true,true)},reduce?0:1100))}},0.3);
+
+/* ---- how it works: animated stepper ---- */
+var hws=[].slice.call(document.querySelectorAll(".hws")), scenes=[].slice.call(document.querySelectorAll(".scene")), HDUR=[5600,6200,4800], hAuto=!reduce, hCur=0, hTimer=null, hIn=false;
+function hShow(i,focus){
+  hws.forEach(function(t,k){t.setAttribute("aria-selected",k===i);t.tabIndex=k===i?0:-1;t.classList.remove("timing")});
+  hws.forEach(function(t,k){t.classList.toggle("done",k<i)});
+  [].forEach.call(document.querySelectorAll(".hwa"),function(ar,k){ar.classList.toggle("on",k<i)});
+  var cap=$("hwcap"); if(cap)cap.textContent=hws[i].querySelector("small").textContent;
+  scenes.forEach(function(sc,k){sc.classList.remove("on");if(k===i){void sc.offsetWidth;sc.classList.add("on")}});
+  hCur=i; if(focus)hws[i].focus(); hSched();
+}
+function hSched(){
+  clearTimeout(hTimer); if(!hAuto||!hIn)return;
+  var t=hws[hCur]; t.style.setProperty("--dur",HDUR[hCur]+"ms"); void t.offsetWidth; t.classList.add("timing");
+  hTimer=setTimeout(function(){hShow((hCur+1)%hws.length)},HDUR[hCur]);
+}
+function hStop(){hAuto=false;clearTimeout(hTimer);hws.forEach(function(t){t.classList.remove("timing")})}
+hws.forEach(function(t,i){
+  t.addEventListener("click",function(){hStop();hShow(i)});
+  t.addEventListener("keydown",function(e){var n=null;
+    if(e.key==="ArrowDown"||e.key==="ArrowRight")n=(i+1)%hws.length;else if(e.key==="ArrowUp"||e.key==="ArrowLeft")n=(i-1+hws.length)%hws.length;
+    if(n!==null){e.preventDefault();hStop();hShow(n,true)}});
+});
+$("hwstage").addEventListener("pointerdown",function(){hStop();hShow(hCur)});
+onVisible($("hwstage"),function(v){var was=hIn;hIn=v;if(v&&!was)hShow(hCur);else if(!v)clearTimeout(hTimer)},0.35);
+
+/* ---- price calculator ---- */
+var sites=$("sites");
+function calc(){var n=+sites.value;$("sitesN").textContent=n;$("sitesTot").textContent="€"+(n*49).toLocaleString("en-IE")}
+sites.addEventListener("input",calc);calc();
+
+/* ---- waiting list: nothing is sent anywhere ----
+   Inputs have no "name" attributes, the form has no action,
+   and submission is always cancelled. */
+var form=$("wlForm"), email=$("wlEmail"), nameI=$("wlName"), err=$("wlErr"), thanks=$("wlThanks"), ttl=$("wlThanksTitle");
+form.addEventListener("submit",function(e){
+  e.preventDefault();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){err.hidden=false;email.focus();return}
+  err.hidden=true;
+  var n=nameI.value.trim().split(/\s+/)[0];
+  ttl.textContent=n?"Thank you, "+n+"!":"Thank you!";
+  form.reset();form.hidden=true;thanks.hidden=false;thanks.focus();
+});
+email.addEventListener("input",function(){err.hidden=true});
+
+/* ---- hide bottom toolbar while the waiting list is on screen ---- */
+var dock=$("dock");
+onVisible($("waitlist"),function(v){dock.classList.toggle("away",v)},0.15);
+})();
+</script>
+</body>
+</html>
